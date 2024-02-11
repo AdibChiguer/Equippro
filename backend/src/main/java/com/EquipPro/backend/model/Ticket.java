@@ -1,6 +1,7 @@
 package com.EquipPro.backend.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
@@ -13,9 +14,9 @@ import java.time.LocalDate;
 public class Ticket {
     @Id
     private Long id;
-    private LocalDate dateOuvreture;
-    private LocalDate dateFermeture;
-    private String etat;
+    private LocalDate openDate;
+    private LocalDate closeDate;
+    private String status;
     private String comment;
     private String task;
     @ManyToOne

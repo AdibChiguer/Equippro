@@ -1,5 +1,6 @@
 package com.EquipPro.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class User {
     private String nom;
     private String prenom;
     private String email;
+    @JsonIgnore
     private String password;
     @ManyToOne
     @JoinColumn(name = "role_id")
