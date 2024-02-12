@@ -41,7 +41,7 @@ public class EquipmentRequestServiceImp implements EquipmentRequestService{
         if (client.isEmpty()){
             throw new UserNotFoundException("the user with the cin : "+equipmentRequest.getClient().getCin()+" not found");
         } else if (equipment.isEmpty()) {
-            throw new EquipmentNotFoundException("the equipment with the reference : "+equipmentRequest.getEquipmentInfo().getRef()+" not found");
+            throw new EquipmentRequestNotFoundException("the equipment with the reference : "+equipmentRequest.getEquipmentInfo().getRef()+" not found");
         } else {
             equipmentRequest.setRequestDate(LocalDate.now());
             equipmentRequest.setClient(client.get());
@@ -57,6 +57,16 @@ public class EquipmentRequestServiceImp implements EquipmentRequestService{
             throw new EquipmentRequestNotFoundException("the equipment request with the id : "+ equipmentRequestId + " not found");
         } else {
             equipmentRequestRepository.deleteById(equipmentRequestId);
+        }
+    }
+
+    @Override
+    public List<EquipmentRequest> getOwnedRequests(String cin) {
+        Optional<Client> client = clientRepository.findById(cin);
+        if (client.isEmpty()){
+            throw new UserNotFoundException("the client not found");
+        } else {
+            return equipmentRequestRepository.getOwnedRequests(cin);
         }
     }
 }

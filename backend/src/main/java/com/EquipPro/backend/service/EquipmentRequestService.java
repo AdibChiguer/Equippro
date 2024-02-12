@@ -9,4 +9,6 @@ public interface EquipmentRequestService {
     EquipmentRequest getEquipmentRequest(Long equipmentRequestId);
     EquipmentRequest createEquipmentRequest(EquipmentRequest equipmentRequest);
     void deleteEquipmentRequest(Long equipmentRequestId);
+
+    List<EquipmentRequest> getOwnedRequests(String cin);
 }
