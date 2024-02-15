@@ -31,11 +31,11 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
 
     @Override
     public List<EquipmentInfo> getOwnedEquipments(String cin) {
-        Optional<User> userOptional = userRepository.findById(cin);
+        Optional<Client> userOptional = clientRepository.findById(cin);
         if (userOptional.isPresent()){
             return userOptional.get().getEquipment();
         } else {
-            throw new UserNotFoundException("the user not found");
+            throw new UserNotFoundException("the client not found");
         }
     }
 
@@ -61,6 +61,10 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
 
     @Override
     public EquipmentInfo createEquipment(EquipmentInfo equipment) {
+        Optional<EquipmentInfo> equipmentInfo = equipmentInfoRepository.findById(equipment.getRef());
+        if (equipmentInfo.isPresent()){
+            throw new EquimpmentAlreadyExistsException("the equipment with the ref : "+ equipment.getRef() + " already exists");
+        }
         equipment.setCreationDate(LocalDate.now());
         equipment.setAvailable(true);
         equipment.setOwner(null);
@@ -116,24 +120,6 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
     }
 
     @Override
-    public void assignEquipmentToTechnician(String ref, String cin) {
-        Optional<EquipmentInfo> equipmentInfo = equipmentInfoRepository.findById(ref);
-        Optional<Technician> technician = technicianRepository.findById(cin);
-        if (technician.isEmpty()){
-            throw new UserNotFoundException("the technician with the cin : " + cin + " not found");
-        } else if (equipmentInfo.isEmpty()) {
-            throw new EquipmentNotFoundException("the equipment with the reference : "+ ref + " not found");
-        } else if (technician.get().getEquipment().contains(equipmentInfo.get())) {
-            throw new EquimpmentAlreadyExistsException(equipmentInfo.get().getRef()+ " is already assigned to the technician with cin : "+ technician.get().getCin());
-        } else {
-            technician.get().getEquipment().add(equipmentInfo.get());
-            equipmentInfo.get().setOwner(technician.get());
-            technicianRepository.save(technician.get());
-            equipmentInfoRepository.save(equipmentInfo.get());
-        }
-    }
-
-    @Override
     public void removeEquipmentFromClient(String ref, String cin) {
         Optional<EquipmentInfo> equipmentInfo = equipmentInfoRepository.findById(ref);
         Optional<Client> client = clientRepository.findById(cin);
@@ -147,24 +133,6 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
             client.get().getEquipment().remove(equipmentInfo.get());
             equipmentInfo.get().setOwner(null);
             clientRepository.save(client.get());
-            equipmentInfoRepository.save(equipmentInfo.get());
-        }
-    }
-
-    @Override
-    public void removeEquipmentFromTechnician(String ref, String cin) {
-        Optional<EquipmentInfo> equipmentInfo = equipmentInfoRepository.findById(ref);
-        Optional<Technician> technician = technicianRepository.findById(cin);
-        if (technician.isEmpty()){
-            throw new UserNotFoundException("the technician with the cin : " + cin + " not found");
-        } else if (equipmentInfo.isEmpty()) {
-            throw new EquipmentNotFoundException("the equipment with the reference : "+ ref + " not found");
-        } else if (!technician.get().getEquipment().contains(equipmentInfo.get())) {
-            throw new EquimpmentAlreadyExistsException(equipmentInfo.get().getRef()+ " is already removed from the technician with cin : "+ technician.get().getCin());
-        } else {
-            technician.get().getEquipment().remove(equipmentInfo.get());
-            equipmentInfo.get().setOwner(null);
-            technicianRepository.save(technician.get());
             equipmentInfoRepository.save(equipmentInfo.get());
         }
     }

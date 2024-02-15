@@ -57,9 +57,13 @@ public class EquipmentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<EquipmentInfo> createEquipment(@RequestBody EquipmentInfo reqEquipment){
-        EquipmentInfo equipmentInfo = equipmentInfoService.createEquipment(reqEquipment);
-        return ResponseEntity.ok(equipmentInfo);
+    public ResponseEntity<?> createEquipment(@RequestBody EquipmentInfo reqEquipment){
+        try {
+            EquipmentInfo equipmentInfo = equipmentInfoService.createEquipment(reqEquipment);
+            return ResponseEntity.ok(equipmentInfo);
+        } catch (EquimpmentAlreadyExistsException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
     @GetMapping("/available")
@@ -109,35 +113,11 @@ public class EquipmentController {
         }
     }
 
-    @PostMapping("/assign/technician")
-    public ResponseEntity<String> assignEquipmentToTechnician(@RequestParam("cin") String cin , @RequestParam("ref") String ref){
-        try {
-            equipmentInfoService.assignEquipmentToTechnician(ref , cin);
-            return ResponseEntity.ok("The equipment assigned successfully");
-        } catch (UserNotFoundException | EquipmentNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (EquimpmentAlreadyExistsException e){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error assigning the equipment to the user");
-        }
-    }
-
+    @PostMapping("/remove/client")
     public ResponseEntity<String> removeEquipmentFromClient(@RequestParam("cin") String cin , @RequestParam("ref") String ref){
         try {
             equipmentInfoService.removeEquipmentFromClient(ref, cin);
             return ResponseEntity.ok("The equipment removed from the client successfully");
-        } catch (UserNotFoundException | EquipmentNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error removing equipment from the user");
-        }
-    }
-
-    public ResponseEntity<String> removeEquipmentFromTechnician(@RequestParam("cin") String cin , @RequestParam("ref") String ref){
-        try {
-            equipmentInfoService.removeEquipmentFromTechnician(ref, cin);
-            return ResponseEntity.ok("The equipment removed from the technician successfully");
         } catch (UserNotFoundException | EquipmentNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e){

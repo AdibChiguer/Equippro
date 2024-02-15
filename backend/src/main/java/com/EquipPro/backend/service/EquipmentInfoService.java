@@ -15,8 +15,6 @@ public interface EquipmentInfoService {
     EquipmentInfo getEquipment(String ref);
     void deleteEquipment(String ref);
     void assignEquipmentToClient(String ref, String cin);
-    void assignEquipmentToTechnician(String ref, String cin);
     void removeEquipmentFromClient(String ref, String cin);
-    void removeEquipmentFromTechnician(String ref, String cin);
     EquipmentInfo equipmentIssueRequest(String ref);
 }

@@ -1,5 +1,6 @@
 package com.EquipPro.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -19,8 +20,10 @@ public class EquipmentInfo {
     private String type;
     private LocalDate creationDate;
     private Boolean available;
+    @JsonIgnore
     @OneToMany(mappedBy = "equipment")
     private List<Ticket> ticket = new ArrayList<>();
+    @JsonIgnore
     @ManyToOne
-    private User owner;
+    private Client owner;
 }

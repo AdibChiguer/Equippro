@@ -28,6 +28,8 @@ public class RoleController {
             return ResponseEntity.ok(roleService.createRole(role));
         } catch (RoleAlreadyExistException e){
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

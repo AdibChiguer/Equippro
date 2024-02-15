@@ -16,11 +16,8 @@ public class User {
     private String nom;
     private String prenom;
     private String email;
-    @JsonIgnore
     private String password;
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
-    @OneToMany(mappedBy = "owner")
-    private List<EquipmentInfo> equipment = new ArrayList<>();
 }

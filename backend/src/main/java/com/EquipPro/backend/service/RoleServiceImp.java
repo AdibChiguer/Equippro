@@ -22,12 +22,13 @@ public class RoleServiceImp implements RoleService{
     @Override
     public Role createRole(Role role) {
         String roleName = role.getName().toLowerCase();
-        Role theRole = new Role(roleName);
-        if(roleRepository.existsByName(roleName)){
+        if (roleRepository.existsByName(roleName)) {
             throw new RoleAlreadyExistException(roleName + " role already exists");
         }
-        return roleRepository.save(theRole);
+        role.setName(roleName);
+        return roleRepository.save(role);
     }
+
 
     @Override
     public void deleteRole(Long id) throws RoleNotFoundException {
