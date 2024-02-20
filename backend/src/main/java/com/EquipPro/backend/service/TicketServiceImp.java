@@ -9,6 +9,8 @@ import com.EquipPro.backend.model.Ticket;
 import com.EquipPro.backend.repository.EquipmentInfoRepository;
 import com.EquipPro.backend.repository.TechnicianRepository;
 import com.EquipPro.backend.repository.TicketRepository;
+import com.EquipPro.backend.template.EmailTemplate;
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class TicketServiceImp implements TicketService{
     private final TicketRepository ticketRepository;
     private final EquipmentInfoRepository equipmentInfoRepository;
     private final TechnicianRepository technicianRepository;
+    private final EmailService emailService;
 
     @Override
     public List<Ticket> getAllTickets() {
@@ -50,6 +53,22 @@ public class TicketServiceImp implements TicketService{
             ticket.setOpenDate(LocalDate.now());
             ticket.setEquipment(equipment.get());
             ticket.setTechnician(technician.get());
+            EmailTemplate emailTemplate = new EmailTemplate();
+            // send email to client
+            emailTemplate.setClientRecievedTicketMessage(equipment.get().getRef(),
+                    equipment.get().getOwner().getNom(),
+                    technician.get().getNom());
+            String clientSubject = emailTemplate.getClientRecievedTicketMessage();
+            emailService.sendMail(equipment.get().getOwner().getEmail(),
+                    "notification" ,
+                    clientSubject );
+            // send email to technician
+            emailTemplate.setTechnicianRecievedTicketMessage(equipment.get().getRef(),
+                    technician.get().getNom());
+            String technicianSubject = emailTemplate.getTechnicianRecievedTicketMessage();
+            emailService.sendMail(technician.get().getEmail(),
+                    "notification" ,
+                    technicianSubject );
             return ticketRepository.save(ticket);
         }
     }
@@ -62,7 +81,29 @@ public class TicketServiceImp implements TicketService{
         } else {
             ticket.get().setCloseDate(LocalDate.now());
             ticket.get().setStatus("closed");
+            EmailTemplate emailTemplate = new EmailTemplate();
+            // send email to client
+            emailTemplate.setClientEquipmentFixed(ticket.get().getEquipment().getRef(),
+                    ticket.get().getEquipment().getOwner().getNom());
+            String clientSubject = emailTemplate.getClientEquipmentFixed();
+            emailService.sendMail(ticket.get().getEquipment().getOwner().getEmail(),
+                    "notification" ,
+                    clientSubject );
             ticketRepository.save(ticket.get());
         }
+    }
+
+    @Override
+    public Ticket updateTicket(Ticket ticket) {
+        Optional<Ticket> t = ticketRepository.findById(ticket.getId());
+        if (t.isEmpty()){
+            throw new TicketNotFoundException("the ticket not found");
+        }
+        t.get().setComment(ticket.getComment());
+        t.get().setTask(ticket.getTask());
+        if (ticket.getTechnician() != null){
+            t.get().setTechnician(ticket.getTechnician());
+        }
+        return ticketRepository.save(t.get());
     }
 }

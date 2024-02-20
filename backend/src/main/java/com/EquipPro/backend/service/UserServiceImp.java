@@ -82,4 +82,31 @@ public class UserServiceImp implements UserService{
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         userRepository.save(admin);
     }
+
+    @Override
+    public User updateClient(Client client) {
+        Optional<Client> theClient = clientRepository.findById(client.getCin());
+        if (theClient.isEmpty()){
+            throw new UserNotFoundException("the Client not found");
+        }
+        theClient.get().setNom(client.getNom());
+        theClient.get().setPrenom(client.getPrenom());
+        theClient.get().setEmail(client.getEmail());
+        theClient.get().setPassword(passwordEncoder.encode(client.getPassword()));
+        return clientRepository.save(theClient.get());
+    }
+
+    @Override
+    public User updateTechnician(Technician technician) {
+        Optional<Technician> theTechnician = technicianRepository.findById(technician.getCin());
+        if (theTechnician.isEmpty()){
+            throw new UserNotFoundException("the Client not found");
+        }
+        theTechnician.get().setNom(technician.getNom());
+        theTechnician.get().setPrenom(technician.getPrenom());
+        theTechnician.get().setEmail(technician.getEmail());
+        theTechnician.get().setPassword(passwordEncoder.encode(technician.getPassword()));
+        theTechnician.get().setSpecialite(technician.getSpecialite());
+        return technicianRepository.save(theTechnician.get());
+    }
 }

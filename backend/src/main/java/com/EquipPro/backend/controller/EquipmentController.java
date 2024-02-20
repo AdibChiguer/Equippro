@@ -124,4 +124,16 @@ public class EquipmentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error removing equipment from the user");
         }
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateEquipmentInfo(@RequestBody EquipmentInfo equipmentInfo){
+        try {
+            equipmentInfoService.updateEquipmentInfo(equipmentInfo);
+            return ResponseEntity.ok("Equipment updated successfully");
+        }catch (EquipmentNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Equipment not found");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error on the server during the update of the equipment");
+        }
+    }
 }

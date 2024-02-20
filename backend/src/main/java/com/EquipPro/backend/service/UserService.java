@@ -14,4 +14,6 @@ public interface UserService {
     void registerClient(Client client);
     void registerTechnician(Technician technician);
     void registerAdmin(Admin admin);
+    User updateClient(Client client);
+    User updateTechnician(Technician technician);
 }

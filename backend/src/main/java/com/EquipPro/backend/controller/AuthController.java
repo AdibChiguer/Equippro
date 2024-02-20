@@ -1,6 +1,7 @@
 package com.EquipPro.backend.controller;
 
 import com.EquipPro.backend.exception.UserAlreadyExistsException;
+import com.EquipPro.backend.exception.UserNotFoundException;
 import com.EquipPro.backend.model.Admin;
 import com.EquipPro.backend.model.Client;
 import com.EquipPro.backend.model.Technician;
@@ -19,10 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -64,6 +62,29 @@ public class AuthController {
         }
     }
 
+    @PutMapping("/update/client")
+    public ResponseEntity<?> updateClient(@RequestBody Client client){
+        try {
+            userServiceImp.updateClient(client);
+            return ResponseEntity.ok("Client with the cin : "+ client.getCin() + " successfully updated");
+        } catch (UserNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/update/technician")
+    public ResponseEntity<?> updateTechnician(@RequestBody Technician technician){
+        try {
+            userServiceImp.updateTechnician(technician);
+            return ResponseEntity.ok("Technician with the cin : "+ technician.getCin() + " successfully updated");
+        } catch (UserNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest request){

@@ -22,7 +22,6 @@ public class UserController {
         users.forEach(user -> user.setPassword(null));
         return new ResponseEntity<>(users, HttpStatus.FOUND);
     }
-
     @GetMapping("/{userCin}")
     public ResponseEntity<?> getUser(@PathVariable String userCin){
         try {
@@ -35,7 +34,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching user");
         }
     }
-
     @DeleteMapping("/delete/{userCin}")
     public ResponseEntity<String> deleteUser(@PathVariable String userCin){
         try {

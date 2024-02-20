@@ -6,7 +6,6 @@ import com.EquipPro.backend.exception.UserNotFoundException;
 import com.EquipPro.backend.model.Client;
 import com.EquipPro.backend.model.EquipmentInfo;
 import com.EquipPro.backend.model.Technician;
-import com.EquipPro.backend.model.User;
 import com.EquipPro.backend.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -140,5 +139,19 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
     @Override
     public EquipmentInfo equipmentIssueRequest(String ref) {
         return null;
+    }
+
+    @Override
+    public void updateEquipmentInfo(EquipmentInfo equipmentInfo) {
+        Optional<EquipmentInfo> equipment = equipmentInfoRepository.findById(equipmentInfo.getRef());
+        if (equipment.isEmpty()){
+            throw new EquipmentNotFoundException("the equipment with the ref : " + equipmentInfo.getRef() + " not found");
+        }
+        equipment.get().setType(equipmentInfo.getType());
+        equipment.get().setAvailable(equipmentInfo.getAvailable());
+        if (equipmentInfo.getOwner() != null){
+            equipment.get().setOwner(equipmentInfo.getOwner());
+        }
+        equipmentInfoRepository.save(equipment.get());
     }
 }
