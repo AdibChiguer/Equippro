@@ -4,29 +4,34 @@ import com.EquipPro.backend.exception.EquimpmentAlreadyExistsException;
 import com.EquipPro.backend.exception.EquipmentNotFoundException;
 import com.EquipPro.backend.exception.UserNotFoundException;
 import com.EquipPro.backend.model.EquipmentInfo;
+import com.EquipPro.backend.model.User;
+import com.EquipPro.backend.repository.UserRepository;
 import com.EquipPro.backend.service.EquipmentInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/equipments")
 public class EquipmentController {
     private final EquipmentInfoService equipmentInfoService;
-
     @GetMapping("/all")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<EquipmentInfo>> getAllEquipment(){
         return new ResponseEntity<>(equipmentInfoService.getAllEquipments(), HttpStatus.FOUND);
     }
 
-    @GetMapping("/owned/{cin}")
-    public ResponseEntity<?> getOwnedEquipment(@PathVariable String cin){
+    @GetMapping("/owned/{email}")
+    @PreAuthorize("hasRole('admin') or hasRole('client') and #email == principal.username")
+    public ResponseEntity<?> getOwnedEquipment(@PathVariable String email){
         try {
-            return new ResponseEntity<>(equipmentInfoService.getOwnedEquipments(cin), HttpStatus.FOUND);
+            return new ResponseEntity<>(equipmentInfoService.getOwnedEquipments(email), HttpStatus.FOUND);
         } catch (UserNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e){
@@ -34,10 +39,11 @@ public class EquipmentController {
         }
     }
 
-    @GetMapping("/fixed/{technicianCin}")
-    public ResponseEntity<?> getFixedEquipment(@PathVariable String technicianCin){
+    @GetMapping("/fixed/{email}")
+    @PreAuthorize("hasRole('admin') or hasRole('technician') and #email == principal.username")
+    public ResponseEntity<?> getFixedEquipment(@PathVariable String email){
         try {
-            return new ResponseEntity<>(equipmentInfoService.getFixedEquipments(technicianCin), HttpStatus.FOUND);
+            return new ResponseEntity<>(equipmentInfoService.getFixedEquipments(email), HttpStatus.FOUND);
         } catch (UserNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e){
@@ -45,10 +51,11 @@ public class EquipmentController {
         }
     }
 
-    @GetMapping("/fixing/{technicianCin}")
-    public ResponseEntity<?> getFixingEquipment(@PathVariable String technicianCin){
+    @GetMapping("/fixing/{email}")
+    @PreAuthorize("hasRole('admin') or hasRole('technician') and #email == principal.username")
+    public ResponseEntity<?> getFixingEquipment(@PathVariable String email){
         try {
-            return new ResponseEntity<>(equipmentInfoService.getFixingEquipments(technicianCin), HttpStatus.FOUND);
+            return new ResponseEntity<>(equipmentInfoService.getFixingEquipments(email), HttpStatus.FOUND);
         } catch (UserNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e){
@@ -57,6 +64,7 @@ public class EquipmentController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> createEquipment(@RequestBody EquipmentInfo reqEquipment){
         try {
             EquipmentInfo equipmentInfo = equipmentInfoService.createEquipment(reqEquipment);
@@ -67,16 +75,19 @@ public class EquipmentController {
     }
 
     @GetMapping("/available")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<EquipmentInfo>> getAvailableEquipments(){
         return ResponseEntity.ok(equipmentInfoService.getAvailableEquipments());
     }
 
     @GetMapping("/not-used")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<EquipmentInfo>> getNotUsedEquipments(){
         return ResponseEntity.ok(equipmentInfoService.getNotUsedEquipments());
     }
 
     @GetMapping("/equipment/{ref}")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> getEquipment(@PathVariable String ref){
         try {
             return ResponseEntity.ok(equipmentInfoService.getEquipment(ref));
@@ -88,6 +99,7 @@ public class EquipmentController {
     }
 
     @DeleteMapping("/delete/equipment/{ref}")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> deleteEquipment(@PathVariable String ref){
         try{
             equipmentInfoService.deleteEquipment(ref);
@@ -100,6 +112,7 @@ public class EquipmentController {
     }
 
     @PostMapping("/assign/client")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<String> assignEquipmentToClient(@RequestParam("cin") String cin , @RequestParam("ref") String ref){
         try {
             equipmentInfoService.assignEquipmentToClient(ref , cin);
@@ -114,6 +127,7 @@ public class EquipmentController {
     }
 
     @PostMapping("/remove/client")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<String> removeEquipmentFromClient(@RequestParam("cin") String cin , @RequestParam("ref") String ref){
         try {
             equipmentInfoService.removeEquipmentFromClient(ref, cin);
@@ -126,6 +140,7 @@ public class EquipmentController {
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> updateEquipmentInfo(@RequestBody EquipmentInfo equipmentInfo){
         try {
             equipmentInfoService.updateEquipmentInfo(equipmentInfo);

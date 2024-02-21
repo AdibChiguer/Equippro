@@ -16,7 +16,7 @@ public class EmailServiceImp implements EmailService{
     private JavaMailSender javaMailSender;
 
     @Override
-    public void sendMail(String to, String subject, String body) {
+    public String sendMail(String to, String subject, String body) {
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
@@ -27,6 +27,7 @@ public class EmailServiceImp implements EmailService{
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(body);
             javaMailSender.send(mimeMessage);
+            return "mail send";
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

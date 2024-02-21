@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface EquipmentInfoService {
     List<EquipmentInfo> getAllEquipments();
-    List<EquipmentInfo> getOwnedEquipments(String cin);
-    List<EquipmentInfo> getFixedEquipments(String cin);
-    List<EquipmentInfo> getFixingEquipments(String cin);
+    List<EquipmentInfo> getOwnedEquipments(String email);
+    List<EquipmentInfo> getFixedEquipments(String email);
+    List<EquipmentInfo> getFixingEquipments(String email);
     EquipmentInfo createEquipment(EquipmentInfo equipment);
     List<EquipmentInfo> getAvailableEquipments();
     List<EquipmentInfo> getNotUsedEquipments();

@@ -42,12 +42,12 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public void deleteUser(String cin) {
-        Optional<User> user = userRepository.findById(cin);
+    public void deleteUser(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()){
-            throw new UserNotFoundException("the user with the cin : " + cin + " not found");
+            throw new UserNotFoundException("the user with the email : " + email + " not found");
         }
-        userRepository.deleteById(cin);
+        userRepository.deleteByEmail(email);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class UserServiceImp implements UserService{
         if(clientRepository.existsByEmail(client.getEmail()) || clientRepository.existsById(client.getCin())){
             throw new UserAlreadyExistsException("the client is already exists");
         }
-        Role role = roleRepository.findByName("client");
+        Role role = roleRepository.findByName("ROLE_client");
         client.setRole(role);
         client.setPassword(passwordEncoder.encode(client.getPassword()));
         userRepository.save(client);
@@ -66,7 +66,7 @@ public class UserServiceImp implements UserService{
         if (technicianRepository.existsByEmail(technician.getEmail()) || technicianRepository.existsById(technician.getCin())){
             throw new UserAlreadyExistsException("the technician is already exists");
         }
-        Role role = roleRepository.findByName("technician");
+        Role role = roleRepository.findByName("ROLE_technician");
         technician.setRole(role);
         technician.setPassword(passwordEncoder.encode(technician.getPassword()));
         userRepository.save(technician);
@@ -77,7 +77,7 @@ public class UserServiceImp implements UserService{
         if(adminRepository.existsByEmail(admin.getEmail()) || adminRepository.existsById(admin.getCin())){
             throw new UserAlreadyExistsException("the Admin is already exists");
         }
-        Role role = roleRepository.findByName("admin");
+        Role role = roleRepository.findByName("ROLE_admin");
         admin.setRole(role);
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         userRepository.save(admin);

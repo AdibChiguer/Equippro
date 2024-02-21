@@ -29,8 +29,8 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
     }
 
     @Override
-    public List<EquipmentInfo> getOwnedEquipments(String cin) {
-        Optional<Client> userOptional = clientRepository.findById(cin);
+    public List<EquipmentInfo> getOwnedEquipments(String email) {
+        Optional<Client> userOptional = clientRepository.findByEmail(email);
         if (userOptional.isPresent()){
             return userOptional.get().getEquipment();
         } else {
@@ -39,22 +39,22 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
     }
 
     @Override
-    public List<EquipmentInfo> getFixedEquipments(String cin) {
-        Optional<Technician> technician = technicianRepository.findById(cin);
+    public List<EquipmentInfo> getFixedEquipments(String email) {
+        Optional<Technician> technician = technicianRepository.findByEmail(email);
         if (technician.isPresent()){
-            return ticketRepository.getFixedEquipments(cin);
+            return ticketRepository.getFixedEquipments(technician.get().getCin());
         } else {
-            throw new UserNotFoundException("the technician with the cin : " + cin + " not found");
+            throw new UserNotFoundException("the technician with the cin : " + technician.get().getCin() + " not found");
         }
     }
 
     @Override
-    public List<EquipmentInfo> getFixingEquipments(String cin) {
-        Optional<Technician> technician = technicianRepository.findById(cin);
+    public List<EquipmentInfo> getFixingEquipments(String email) {
+        Optional<Technician> technician = technicianRepository.findByEmail(email);
         if (technician.isPresent()){
-            return ticketRepository.getFixingEquipments(cin);
+            return ticketRepository.getFixingEquipments(technician.get().getCin());
         } else {
-            throw new UserNotFoundException("the technician with the cin : " + cin + " not found");
+            throw new UserNotFoundException("the technician with the cin : " + technician.get().getCin() + " not found");
         }
     }
 

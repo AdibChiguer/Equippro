@@ -59,16 +59,18 @@ public class TicketServiceImp implements TicketService{
                     equipment.get().getOwner().getNom(),
                     technician.get().getNom());
             String clientSubject = emailTemplate.getClientRecievedTicketMessage();
-            emailService.sendMail(equipment.get().getOwner().getEmail(),
+            String confirmationToUser = emailService.sendMail(equipment.get().getOwner().getEmail(),
                     "notification" ,
                     clientSubject );
+            System.out.println("############### client :"+confirmationToUser);
             // send email to technician
             emailTemplate.setTechnicianRecievedTicketMessage(equipment.get().getRef(),
                     technician.get().getNom());
             String technicianSubject = emailTemplate.getTechnicianRecievedTicketMessage();
-            emailService.sendMail(technician.get().getEmail(),
+            String confirmationToTechnician = emailService.sendMail(technician.get().getEmail(),
                     "notification" ,
                     technicianSubject );
+            System.out.println("############### technician :"+confirmationToUser);
             return ticketRepository.save(ticket);
         }
     }
