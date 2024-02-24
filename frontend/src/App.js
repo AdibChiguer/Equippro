@@ -1,11 +1,16 @@
 import './App.css';
+import SideBar from './components/admin/sidebar/SideBar';
+import Header from './components/admin/header/Header';
+import Home from './components/admin/home/Home';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-          Learn React
-      </header>
+    <div className='app-container'>
+      <SideBar/>
+      <div className='main-container'>
+        <Header username="adib"/>
+        <Home/>
+      </div>
     </div>
   );
 }

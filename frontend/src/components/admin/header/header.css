@@ -1,0 +1,27 @@
+.header-container{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 50px;
+}
+.profile-photo {
+  border-radius: 50%;
+  overflow: hidden;
+  user-select: none;
+  width: 45px;
+  height: 45px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+.profile-photo:hover{
+  outline: 15px solid #FAFAFA;
+}
+.profile-photo img{
+  width: 100%;
+  height: 100%;
+}
+.hello-div p{
+  color: #8D98AB;
+  font-size: 1.3rem;
+}
