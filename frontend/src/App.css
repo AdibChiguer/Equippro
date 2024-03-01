@@ -5,8 +5,15 @@
 }
 .main-container{
   position: absolute;
-  top: 0;
   right: 0;
   min-height: 100vh;
   width: calc(100% - 290px);
+}
+.main-div{
+  position: absolute;
+  top: 85px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  box-sizing: border-box;
 }

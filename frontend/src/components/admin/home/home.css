@@ -1,20 +1,16 @@
-.home-div-container{
-  position: absolute;
-  top: 85px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 50px;
-  padding-top: 20px;
+.home-div-container {
+  height: 100%;
 }
 .chart-container{
-  padding: 40px;
+  height: 100%;
+  padding: 28px 20px;
+  padding-bottom: 60px;
   border-radius: 20px;
   box-shadow: #919eab4d 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
 }
 .header-chart-container{
   padding-bottom: 20px;
-  padding-left: 15px;
+  padding-left: 10px;
 }
 .header-chart-container span{
   font-weight: 600;
@@ -22,7 +18,8 @@
   line-height: 1.6rem;
 }
 .apexcharts-menu-icon{
-  margin-top: -40px;
+  margin-top: -50px;
+  margin-left: -37px;
 }
 .apexcharts-menu-icon svg {
   scale: 2;

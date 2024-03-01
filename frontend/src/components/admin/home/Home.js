@@ -87,7 +87,7 @@ const Home = () => {
           options={optionscolumnchart}
           series={seriescolumnchart}
           type="bar"
-          height="550px"
+          height="100%"
         />
       </div>
     </div>

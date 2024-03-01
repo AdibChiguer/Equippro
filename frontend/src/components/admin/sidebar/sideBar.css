@@ -1,4 +1,5 @@
 .sidebar-container{
+  position: fixed;
   display: flex;
   flex-direction: column;
   width: 290px;
@@ -6,6 +7,7 @@
   padding: 0px 24px;
   flex-shrink: 0;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  user-select: none;
 }
 .sidebar-logo-container{
   display: flex;
