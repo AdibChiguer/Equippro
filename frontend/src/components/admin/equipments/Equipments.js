@@ -9,8 +9,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button} from "@chakra-ui/react";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Filters from './Filters';
+import { Button } from "@chakra-ui/react";
 
 const columns = [
   {
@@ -69,7 +71,7 @@ const Equipments = () => {
 
 
   return (
-    <>
+    <div className='equipment-content-container'>
       <div className='equipment-table-header'>
         <span>Equipments</span>
         <Filters 
@@ -105,21 +107,21 @@ const Equipments = () => {
         </table>
       </div>
       <div className='pagination-div'>
-        <button
+        <Button
           onClick={() => table.previousPage()}
           isDisabled={!table.getCanPreviousPage()}
-        >{"<"}</button>
+        ><NavigateBeforeIcon/></Button>
         <div className='pagination-info'>
-          <p>page:</p>
-          {table.getState().pagination.pageIndex}
-          {table.getPageCount()}
+          <span>{table.getState().pagination.pageIndex + 1}</span>
+          <span>/</span>
+          <span>{table.getPageCount()}</span>
         </div>
         <Button
           onClick={() => table.nextPage()}
           isDisabled={!table.getCanNextPage()}
-        >{">"}</Button>
+        ><NavigateNextIcon/></Button>
       </div>
-    </>
+    </div>
   )
 }
 

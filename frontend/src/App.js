@@ -5,6 +5,7 @@ import Home from './components/admin/home/Home';
 import Equipments from './components/admin/equipments/Equipments';
 import ClientAdmin from './components/admin/clients/ClientAdmin';
 import TechnicianAdmin from './components/admin/technicians/TechnicianAdmin';
+import Tickets from './components/admin/tickets/Tickets'
 
 function App() {
   return (
@@ -14,9 +15,10 @@ function App() {
         <Header username="adib"/>
         <div className='main-div'>
           {/* <Home/> */}
-          <Equipments/>
+          {/* <Equipments/> */}
           {/* <ClientAdmin/> */}
           {/* <TechnicianAdmin/> */}
+          <Tickets/>
         </div>
       </div>
     </div>

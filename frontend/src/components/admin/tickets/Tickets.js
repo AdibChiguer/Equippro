@@ -1,40 +1,50 @@
 import React, {useState} from 'react'
-import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import DATA from './data'
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import { Button } from "@chakra-ui/react";
-
-import DATA from './data'
-import './clientAdmin.css'
 import Filters from './Filters';
+import { Button } from "@chakra-ui/react";
 
 const columns = [
   {
-    accessorKey: "cin",
-    header: "Cin",
+    accessorKey: "ticketId",
+    header: "Id",
     cell: (props) => <p>{props.getValue()}</p>
   },
   {
-    accessorKey: "firstName",
-    header: "First Name",
+    accessorKey: "equipmentReference",
+    header: "Equipment Reference",
     cell: (props) => <p>{props.getValue()}</p>
   },
   {
-    accessorKey: "lastName",
-    header: "Last Name",
+    accessorKey: "owner",
+    header: "Owner",
     cell: (props) => <p>{props.getValue()}</p>
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "technician",
+    header: "Technician",
     cell: (props) => <p>{props.getValue()}</p>
   },
-]
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: (props) => <p>{props.getValue()}</p>
+  },
+];
 
-
-const ClientAdmin = () => {
+const Tickets = () => {
   const [data, setData] = useState(DATA);
   const [columnFilters, setColumnFilters] = useState([]);
+  
 
   const table = useReactTable({
     data,
@@ -63,10 +73,11 @@ const ClientAdmin = () => {
   });
 
 
+
   return (
     <div className='equipment-content-container'>
       <div className='equipment-table-header'>
-        <span>Clients</span>
+        <span>Tickets</span>
         <Filters 
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
@@ -92,11 +103,11 @@ const ClientAdmin = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-                  ))}
-                </tr>
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                ))}
+              </tr>
             ))}
           </tbody>
         </table>
@@ -120,4 +131,4 @@ const ClientAdmin = () => {
   )
 }
 
-export default ClientAdmin
+export default Tickets
