@@ -6,6 +6,7 @@ import Equipments from './equipments/Equipments';
 import ClientAdmin from './clients/ClientAdmin';
 import TechnicianAdmin from './technicians/TechnicianAdmin';
 import Tickets from './tickets/Tickets'
+import { Routes , Route  } from 'react-router-dom';
 
 
 
@@ -16,11 +17,13 @@ const Admin = ({username}) => {
       <div className='main-container'>
         <Header username={username}/>
         <div className='main-div'>
-          {/* <Home/> */}
-          <Equipments/>
-          {/* <ClientAdmin/> */}
-          {/* <TechnicianAdmin/> */}
-          {/* <Tickets/> */}
+          <Routes>
+            <Route path='/home' element={<Home/>} />
+            <Route path='/equipments' element={<Equipments/>} />
+            <Route path='/clients' element={<ClientAdmin/>} />
+            <Route path='/technicians' element={<TechnicianAdmin/>} />
+            <Route path='/tickets' element={<Tickets/>} />
+          </Routes>
         </div>
       </div>
     </div>

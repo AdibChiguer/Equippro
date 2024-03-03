@@ -40,9 +40,14 @@ const columns = [
 ];
 
 const Equipments = () => {
-  const [data, setData] = useState(DATA);
+  const [data, setData] = useState([]);
+  const [equipmentInfo, setEquipmentInfo] = useState({})
   const [columnFilters, setColumnFilters] = useState([]);
   
+  useEffect(()=> {
+    getAllEquipments();
+  }, [data])
+
   const table = useReactTable({
     data,
     columns,
@@ -72,9 +77,16 @@ const Equipments = () => {
   function getAllEquipments(){
     axios.get('http://localhost:8080/equipments/all')
     .then((res) => {
-      console.log(res);
+      const formattedData = res.data.map(equipment => ({
+        reference: equipment.ref,
+        type: equipment.type,
+        available: equipment.available.toString(),
+        creationdate: formatDate(equipment.creationDate),
+      }));
+      setData(formattedData);
     })
     .catch((err) => {
+      console.log(err);
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -83,23 +95,32 @@ const Equipments = () => {
     })
   }
 
+  const formatDate = (dateArray) => {
+    const [year, month, day] = dateArray;
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  };
+
   function getEquipment(ref){
-    axios.get(`http://localhost:8080/equipment/equipment/${ref}`)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'something went wrong. try again',
+    return axios.get(`http://localhost:8080/equipments/equipment/${ref}`)
+      .then((res) => {
+        return res.data;
       })
-    })
+      .catch((err) => {
+        console.log(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'something went wrong. try again',
+        })
+      })
   }
 
   async function showEquipmentInfo(equipmentRef){
-    await getEquipment(equipmentRef);
-    
+    console.log('////equipment');
+    const data = await getEquipment(equipmentRef);
+    console.log(data);
+    console.log('equipment/////');
+
   }
 
   return (
