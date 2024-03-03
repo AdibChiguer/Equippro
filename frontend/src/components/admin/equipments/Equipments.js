@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './equipments.css'
 import DATA from './data'
 import {
@@ -13,6 +13,8 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Filters from './Filters';
 import { Button } from "@chakra-ui/react";
+import axios from 'axios';
+import Swal from 'sweetalert2'
 
 const columns = [
   {
@@ -37,12 +39,10 @@ const columns = [
   },
 ];
 
-
 const Equipments = () => {
   const [data, setData] = useState(DATA);
   const [columnFilters, setColumnFilters] = useState([]);
   
-
   const table = useReactTable({
     data,
     columns,
@@ -68,7 +68,39 @@ const Equipments = () => {
         ),
     },
   });
+  
+  function getAllEquipments(){
+    axios.get('http://localhost:8080/equipments/all')
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'something went wrong. try again',
+      })
+    })
+  }
 
+  function getEquipment(ref){
+    axios.get(`http://localhost:8080/equipment/equipment/${ref}`)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'something went wrong. try again',
+      })
+    })
+  }
+
+  async function showEquipmentInfo(equipmentRef){
+    await getEquipment(equipmentRef);
+    
+  }
 
   return (
     <div className='equipment-content-container'>
@@ -97,7 +129,7 @@ const Equipments = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.original.reference} onClick={() => showEquipmentInfo(row.original.reference)}>
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                 ))}
