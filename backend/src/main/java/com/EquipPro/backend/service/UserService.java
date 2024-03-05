@@ -16,4 +16,5 @@ public interface UserService {
     void registerAdmin(Admin admin);
     User updateClient(Client client);
     User updateTechnician(Technician technician);
+    List<Client> getAllClient();
 }

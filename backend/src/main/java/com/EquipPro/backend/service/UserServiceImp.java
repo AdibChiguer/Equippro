@@ -97,6 +97,11 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
+    public List<Client> getAllClient() {
+        return clientRepository.findAll();
+    }
+
+    @Override
     public User updateTechnician(Technician technician) {
         Optional<Technician> theTechnician = technicianRepository.findById(technician.getCin());
         if (theTechnician.isEmpty()){

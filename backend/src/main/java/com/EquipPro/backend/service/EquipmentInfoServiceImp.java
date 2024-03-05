@@ -94,6 +94,11 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
     public void deleteEquipment(String ref) {
         Optional<EquipmentInfo> equipmentInfo = equipmentInfoRepository.findById(ref);
         if (equipmentInfo.isPresent()){
+            Client owner = equipmentInfo.get().getOwner();
+            if (owner != null){
+                owner.getEquipment().remove(equipmentInfo.get());
+                clientRepository.save(owner);
+            }
             equipmentInfoRepository.deleteById(ref);
         } else {
             throw new EquipmentNotFoundException("the equipment with the reference : "+ ref + " not found");

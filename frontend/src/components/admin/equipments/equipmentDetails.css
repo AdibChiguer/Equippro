@@ -1,0 +1,127 @@
+.equipment-details-container {
+  margin-left: 28px;
+  margin-right: 28px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  user-select: none;
+}
+.equipment-details-header {
+  display: flex;
+  align-items: center;
+}
+.equipment-details-header h1 {
+  color: #A6C4DE;
+  font-size: 1.4rem;
+  font-weight: 300;
+  width: 100%;
+  text-align: center;
+}
+
+.go-back-container button , .delete-btn-container button{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-radius: 5px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  box-shadow: #919eab4d 0px 0px 3px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+}
+
+.delete-btn-container .delete-btn {
+  background-color: #ED5E68;
+  color: white;
+  font-size: 1rem;
+}
+
+.go-back-container{
+  border-radius: 5px;
+  background-color: #A6C4DE;
+}
+
+.go-back-container button p {
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.go-back-container button svg {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.equipment-details-body{
+  min-height: 100%;
+  margin-top: 50px;
+}
+
+.ref-available-container , .type-creationDate-container{
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  gap: 10rem;
+}
+.ref , .available , .type-container , .creation-date-container{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ref label , 
+.available label , 
+.type-container label , 
+.creation-date-container label , 
+.clients-container label{
+  color: #8D98AB;
+  font-size: 1rem;
+}
+
+.ref input , 
+.available select , 
+.type-container input , 
+.creation-date-container input , 
+.available-input , 
+.clients-container input ,
+.clients-container select{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #8D98AB;
+  outline: none;
+  width: 300px;
+}
+
+.clients-container {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.edit-btn-container {
+  display: flex;
+  width: 100%;
+  padding: 10px 20px;
+  margin-top: 10px;
+  gap: 20px;
+}
+
+.edit-btn-container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #A6C4DE;
+  box-shadow: #919eab4d 0px 0px 3px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+}

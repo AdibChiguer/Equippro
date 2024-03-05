@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react'
-import './equipments.css'
-import DATA from './data'
+import React, { useEffect, useState } from 'react';
+import './equipments.css'; // Make sure this path is correct
+import { useNavigate } from 'react-router-dom';
 import {
+  useReactTable,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
 } from "@tanstack/react-table";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import Filters from './Filters';
+import Filters from './Filters'; // Make sure this path is correct
 import { Button } from "@chakra-ui/react";
 import axios from 'axios';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const columns = [
   {
@@ -41,12 +41,12 @@ const columns = [
 
 const Equipments = () => {
   const [data, setData] = useState([]);
-  const [equipmentInfo, setEquipmentInfo] = useState({})
   const [columnFilters, setColumnFilters] = useState([]);
-  
-  useEffect(()=> {
+  const navigate = useNavigate();
+
+  useEffect(() => {
     getAllEquipments();
-  }, [data])
+  }, []);
 
   const table = useReactTable({
     data,
@@ -59,54 +59,21 @@ const Equipments = () => {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     columnResizeMode: "onChange",
-    meta: {
-      updateData: (rowIndex, columnId, value) =>
-        setData((prev) =>
-          prev.map((row, index) =>
-            index === rowIndex
-              ? {
-                  ...prev[rowIndex],
-                  [columnId]: value,
-                }
-              : row
-          )
-        ),
-    },
   });
-  
-  function getAllEquipments(){
+
+  function getAllEquipments() {
     axios.get('http://localhost:8080/equipments/all')
-    .then((res) => {
-      const formattedData = res.data.map(equipment => ({
-        reference: equipment.ref,
-        type: equipment.type,
-        available: equipment.available.toString(),
-        creationdate: formatDate(equipment.creationDate),
-      }));
-      setData(formattedData);
-    })
-    .catch((err) => {
-      console.log(err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'something went wrong. try again',
-      })
-    })
-  }
-
-  const formatDate = (dateArray) => {
-    const [year, month, day] = dateArray;
-    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-  };
-
-  function getEquipment(ref){
-    return axios.get(`http://localhost:8080/equipments/equipment/${ref}`)
       .then((res) => {
-        return res.data;
+        const formattedData = res.data.map(equipment => ({
+          reference: equipment.ref,
+          type: equipment.type,
+          available: equipment.available.toString(),
+          creationdate: formatDate(equipment.creationDate),
+        }));
+        setData(formattedData);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -115,19 +82,16 @@ const Equipments = () => {
       })
   }
 
-  async function showEquipmentInfo(equipmentRef){
-    console.log('////equipment');
-    const data = await getEquipment(equipmentRef);
-    console.log(data);
-    console.log('equipment/////');
-
-  }
+  const formatDate = (dateArray) => {
+    const [year, month, day] = dateArray;
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  };
 
   return (
     <div className='equipment-content-container'>
       <div className='equipment-table-header'>
         <span>Equipments</span>
-        <Filters 
+        <Filters
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
         />
@@ -135,22 +99,18 @@ const Equipments = () => {
       </div>
       <div className='equipment-table-container'>
         <table className='table'>
-        <thead>
+          <thead>
             <tr>
-              {table.getHeaderGroups().map((headerGroup) => {
-                return headerGroup.headers.map((header) => {
-                  return (
-                    <th key={header.id}>
-                      {header.column.columnDef.header}
-                    </th>
-                  );
-                });
-              })}
+              {table.getHeaderGroups().map((headerGroup) =>
+                headerGroup.headers.map((header) => (
+                  <th key={header.id}>{header.column.columnDef.header}</th>
+                ))
+              )}
             </tr>
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.original.reference} onClick={() => showEquipmentInfo(row.original.reference)}>
+              <tr key={row.id} onClick={() => navigate(`/equipment-details/${row.original.reference}`)} className="link">
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                 ))}
@@ -160,22 +120,16 @@ const Equipments = () => {
         </table>
       </div>
       <div className='pagination-div'>
-        <Button
-          onClick={() => table.previousPage()}
-          isDisabled={!table.getCanPreviousPage()}
-        ><NavigateBeforeIcon/></Button>
+        <Button onClick={() => table.previousPage()} isDisabled={!table.getCanPreviousPage()}><NavigateBeforeIcon /></Button>
         <div className='pagination-info'>
           <span>{table.getState().pagination.pageIndex + 1}</span>
           <span>/</span>
           <span>{table.getPageCount()}</span>
         </div>
-        <Button
-          onClick={() => table.nextPage()}
-          isDisabled={!table.getCanNextPage()}
-        ><NavigateNextIcon/></Button>
+        <Button onClick={() => table.nextPage()} isDisabled={!table.getCanNextPage()}><NavigateNextIcon /></Button>
       </div>
     </div>
-  )
+  );
 }
 
-export default Equipments
+export default Equipments;

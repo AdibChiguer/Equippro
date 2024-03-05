@@ -38,7 +38,7 @@ const SideBar = () => {
       </div>
       <div className='sidebar-links-container'>
         <span className='sidebar-nav-span'>HOME</span>
-        <Link to={'/home/'}>
+        <Link to={'/home'}>
           <div 
             className={`sidebar-navigation-btn ${activeItem === 'Overview' ? 'active' : 'hover'}`} 
             onClick={() => handleItemClick('Overview')}
@@ -48,7 +48,7 @@ const SideBar = () => {
           </div>
         </Link>
         <span className='sidebar-nav-span'>GESTION</span>
-        <Link to={'/equipments/'}>
+        <Link to={'/equipments'}>
           <div 
             className={`sidebar-navigation-btn ${activeItem === 'Equipments' ? 'active' : 'hover'}`} 
             onClick={() => handleItemClick('Equipments')}
@@ -57,7 +57,7 @@ const SideBar = () => {
               <p>Equipments</p>
           </div>
         </Link>
-        <Link to={'/clients/'}>
+        <Link to={'/clients'}>
           <div 
             className={`sidebar-navigation-btn ${activeItem === 'Clients' ? 'active' : 'hover'}`} 
             onClick={() => handleItemClick('Clients')}
@@ -66,7 +66,7 @@ const SideBar = () => {
               <p>Clients</p>
           </div>
         </Link>
-        <Link to={'/technicians/'}>
+        <Link to={'/technicians'}>
           <div 
             className={`sidebar-navigation-btn ${activeItem === 'Technicians' ? 'active' : 'hover'}`} 
             onClick={() => handleItemClick('Technicians')}
@@ -75,7 +75,7 @@ const SideBar = () => {
               <p>Technicians</p>
           </div>
         </Link>
-        <Link to={'/tickets/'}>
+        <Link to={'/tickets'}>
           <div 
             className={`sidebar-navigation-btn ${activeItem === 'Tickets' ? 'active' : 'hover'}`} 
             onClick={() => handleItemClick('Tickets')}

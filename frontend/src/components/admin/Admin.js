@@ -7,6 +7,7 @@ import ClientAdmin from './clients/ClientAdmin';
 import TechnicianAdmin from './technicians/TechnicianAdmin';
 import Tickets from './tickets/Tickets'
 import { Routes , Route  } from 'react-router-dom';
+import EquipmentDetails from './equipments/EquipmentDetails';
 
 
 
@@ -23,6 +24,7 @@ const Admin = ({username}) => {
             <Route path='/clients' element={<ClientAdmin/>} />
             <Route path='/technicians' element={<TechnicianAdmin/>} />
             <Route path='/tickets' element={<Tickets/>} />
+            <Route path='/equipment-details/:ref' element={<EquipmentDetails/>} />
           </Routes>
         </div>
       </div>

@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 public class Client extends User{
+    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private List<EquipmentInfo> equipment = new ArrayList<>();
 }

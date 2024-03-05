@@ -99,7 +99,7 @@ public class EquipmentController {
     }
 
     @DeleteMapping("/delete/equipment/{ref}")
-    @PreAuthorize("hasRole('admin')")
+//    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> deleteEquipment(@PathVariable String ref){
         try{
             equipmentInfoService.deleteEquipment(ref);

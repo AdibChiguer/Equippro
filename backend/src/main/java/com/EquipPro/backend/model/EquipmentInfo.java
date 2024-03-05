@@ -23,7 +23,6 @@ public class EquipmentInfo {
     @JsonIgnore
     @OneToMany(mappedBy = "equipment")
     private List<Ticket> ticket = new ArrayList<>();
-    @JsonIgnore
     @ManyToOne
     private Client owner;
 }
