@@ -117,7 +117,9 @@ public class UserServiceImp implements UserService{
         theTechnician.get().setNom(technician.getNom());
         theTechnician.get().setPrenom(technician.getPrenom());
         theTechnician.get().setEmail(technician.getEmail());
-        theTechnician.get().setPassword(passwordEncoder.encode(technician.getPassword()));
+        if(technician.getPassword() != null) {
+            theTechnician.get().setPassword(passwordEncoder.encode(technician.getPassword()));
+        }
         theTechnician.get().setSpecialite(technician.getSpecialite());
         return technicianRepository.save(theTechnician.get());
     }

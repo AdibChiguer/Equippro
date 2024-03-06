@@ -5,7 +5,7 @@ import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Cancel'; // Import Cancel icon
+import CancelIcon from '@mui/icons-material/Cancel'; 
 import Swal from 'sweetalert2';
 import './equipmentDetails.css';
 
@@ -21,7 +21,7 @@ const EquipmentDetails = () => {
   const [editMode, setEditMode] = useState(false);
   const [readOnly, setReadOnly] = useState(true);
   const [originalDetails, setOriginalDetails] = useState({});
-  const [changesMade, setChangesMade] = useState(false); // Add changesMade state
+  const [changesMade, setChangesMade] = useState(false);
   const [clients, setClients] = useState([]);
 
   useEffect(() => {

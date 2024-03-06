@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './equipments.css'; // Make sure this path is correct
+import './equipments.css';
 import { useNavigate } from 'react-router-dom';
 import {
   useReactTable,
@@ -11,7 +11,7 @@ import {
 } from "@tanstack/react-table";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import Filters from './Filters'; // Make sure this path is correct
+import Filters from './Filters';
 import { Button } from "@chakra-ui/react";
 import axios from 'axios';
 import Swal from 'sweetalert2';

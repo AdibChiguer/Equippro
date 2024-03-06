@@ -10,6 +10,7 @@ import { Routes , Route  } from 'react-router-dom';
 import EquipmentDetails from './equipments/EquipmentDetails';
 import ClientDetails from './clients/ClientDetails';
 import TechnicianDetails from './technicians/TechnicianDetails';
+import TicketDetails from './tickets/TicketDetails';
 
 
 const Admin = ({username}) => {
@@ -22,12 +23,13 @@ const Admin = ({username}) => {
           <Routes>
             <Route path='/home' element={<Home/>} />
             <Route path='/equipments' element={<Equipments/>} />
-            <Route path='/clients' element={<ClientAdmin/>} />
-            <Route path='/technicians' element={<TechnicianAdmin/>} />
-            <Route path='/tickets' element={<Tickets/>} />
             <Route path='/equipment-details/:ref' element={<EquipmentDetails/>} />
+            <Route path='/clients' element={<ClientAdmin/>} />
             <Route path='/client-details/:cin' element={<ClientDetails/>} />
+            <Route path='/technicians' element={<TechnicianAdmin/>} />
             <Route path='/technician-details/:cin' element={<TechnicianDetails/>} />
+            <Route path='/tickets' element={<Tickets/>} />
+            <Route path='/ticket-details/:id' element={<TicketDetails/>} />
           </Routes>
         </div>
       </div>

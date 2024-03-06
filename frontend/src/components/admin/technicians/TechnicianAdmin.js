@@ -1,5 +1,4 @@
-import React, {useState} from 'react'
-import DATA from './data'
+import React, {useState , useEffect} from 'react'
 import {
   flexRender,
   getCoreRowModel,
@@ -13,6 +12,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Filters from './Filters';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@chakra-ui/react";
+import axios from 'axios';
 
 const columns = [
   {
@@ -43,9 +43,13 @@ const columns = [
 ];
 
 const TechnicianAdmin = () => {
-  const [data, setData] = useState(DATA);
+  const [data, setData] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllTechnicians()
+  }, []);
 
   const table = useReactTable({
     data,
@@ -74,7 +78,21 @@ const TechnicianAdmin = () => {
   });
 
   function getAllTechnicians(){
-    // fetch technicians
+    axios.get('http://localhost:8080/users/technician/all')
+      .then((res) => {
+        console.log(res.data);
+        const formattedData = res.data.map(technician => ({
+          cin: technician.cin,
+          firstName: technician.nom,
+          lastName: technician.prenom,
+          email: technician.email,
+          speciality : technician.speciality
+        }));
+        setData(formattedData)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
 
@@ -107,7 +125,7 @@ const TechnicianAdmin = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.id} onClick={() => navigate(`/technician-details/${row.original.cin}`)}>
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                 ))}

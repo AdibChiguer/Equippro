@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState , useEffect} from 'react'
 import DATA from './data'
 import {
   flexRender,
@@ -12,6 +12,9 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Filters from './Filters';
 import { Button } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const columns = [
   {
@@ -44,7 +47,11 @@ const columns = [
 const Tickets = () => {
   const [data, setData] = useState(DATA);
   const [columnFilters, setColumnFilters] = useState([]);
-  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllTickets()
+  }, []);
 
   const table = useReactTable({
     data,
@@ -72,7 +79,27 @@ const Tickets = () => {
     },
   });
 
-
+  function getAllTickets() {
+    axios.get('http://localhost:8080/tickets/all')
+      .then((res) => {
+        const formattedData = res.data.map(ticket => ({
+          ticketId: ticket.id,
+          equipmentReference: ticket.equipment.ref,
+          owner: ticket.equipment.owner.cin,
+          technician: ticket.technician.cin,
+          status: ticket.status,
+        }));
+        setData(formattedData);
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'something went wrong. try again',
+        })
+      })
+  }
 
   return (
     <div className='equipment-content-container'>
@@ -103,7 +130,7 @@ const Tickets = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.id} onClick={() => navigate(`/ticket-details/${row.original.ticketId}`)}>
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                 ))}

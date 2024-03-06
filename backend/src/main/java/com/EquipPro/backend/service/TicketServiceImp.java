@@ -104,6 +104,8 @@ public class TicketServiceImp implements TicketService{
         t.get().setComment(ticket.getComment());
         t.get().setTask(ticket.getTask());
         if (ticket.getTechnician() != null){
+            Optional<Technician> technician = technicianRepository.findById(ticket.getTechnician().getCin());
+            technician.ifPresent(value -> value.getTicket().remove(t.get()));
             t.get().setTechnician(ticket.getTechnician());
         }
         return ticketRepository.save(t.get());

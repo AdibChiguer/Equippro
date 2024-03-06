@@ -52,8 +52,157 @@ const TechnicianDetails = () => {
     });
   }
 
+  function saveChanges() {
+    console.log('Saving changes:', technicianDetails);
+
+    const updatedDetails = { 
+      cin: technicianDetails.cin,
+      nom: technicianDetails.lastName,
+      prenom: technicianDetails.firstName,
+      email: technicianDetails.email,
+      password: technicianDetails.password == '' || technicianDetails.password == null ? null : technicianDetails.password,
+      specialite: technicianDetails.specialite,
+    };
+    console.log(updatedDetails);
+    
+    axios.put('http://localhost:8080/auth/update/technician', updatedDetails)
+      .then((res) => {
+        console.log(res);
+        Swal.fire({
+          icon: 'success',
+          title: 'Changes saved successfully',
+          showConfirmButton: true,
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'something went wrong. try again',
+        });
+      });
+  }
+
+  const handleEditToggle = () => {
+    if (editMode && changesMade) {
+      saveChanges();
+      setEditMode(false);
+      setReadOnly(true);
+      setChangesMade(false);
+    } else if (!editMode) {
+      setEditMode(true);
+      setReadOnly(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditMode(false);
+    setReadOnly(true);
+    setTechnicainDetails(originalDetails);
+    setChangesMade(false);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setTechnicainDetails({ ...technicianDetails, [name]: value });
+    setChangesMade(true);
+  };
+
+  function ConfirmDelete() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log('Deleting:', technicianDetails.cin);
+        // deleteEquipment(equipmentDetails.reference);
+      }
+    });
+  }
+
   return (
-    <div>TechnicianDetails</div>
+    <div className="equipment-details-container">
+      <div className="equipment-details-header">
+        <div className="go-back-container">
+          <Link to={'/technicians'}>
+            <button>
+              <ArrowBackRoundedIcon />
+              <p>Back</p>
+            </button>
+          </Link>
+        </div>
+        <h1>Technician Details</h1>
+        <div className="delete-btn-container">
+          <button className="delete-btn" onClick={() => { ConfirmDelete() }}>
+            <p>Delete</p>
+            <DeleteIcon />
+          </button>
+        </div>
+      </div>
+      <div className="equipment-details-body">
+        <div className="ref-available-container">
+          <div className="ref">
+            <label>Cin</label>
+            <input type="text" name="cin" value={technicianDetails.cin} placeholder="cin" readOnly />
+          </div>
+          <div className="available">
+            <label>Email</label>
+            <input type="email" className="available-input" name="email" value={technicianDetails.email} placeholder="email" readOnly={readOnly} onChange={handleInputChange} />
+          </div>
+        </div>
+        <div className="type-creationDate-container">
+          <div className="type-container">
+            <label>Nom</label>
+            <input type="text" name="firstName" value={technicianDetails.firstName} placeholder="last name" readOnly={readOnly} onChange={handleInputChange} />
+          </div>
+          <div className="creation-date-container">
+            <label>Prenom</label>
+            <input type="text" name="lastName" value={technicianDetails.lastName} placeholder="first name" readOnly={readOnly} onChange={handleInputChange} />
+          </div>
+        </div>
+        <div className="technician-speciality-password-container">
+          <div className="speciality-container">
+            <label>Speciality</label>
+            <input type="text" name="specialite" value={technicianDetails.specialite} placeholder="speciality" readOnly={readOnly} onChange={handleInputChange} />
+          </div>
+          <div className="technician-container">
+            {editMode === true ? 
+              <>
+                <label>Password</label>
+                <input type="text" name="password" value={technicianDetails.password} placeholder="password" readOnly={readOnly} onChange={handleInputChange} />
+              </> : ''}
+          </div>
+        </div>
+        <div className="edit-btn-container">
+          <button onClick={handleEditToggle} disabled={editMode && !changesMade}>
+            {editMode === false ? (
+              <>
+                <p>Edit</p>
+                <EditIcon />
+              </>
+            ) : (
+              <>
+                <p>Save</p>
+                <SaveIcon />
+              </>
+            )}
+          </button>
+          {editMode && (
+            <button className="cancel-btn" onClick={handleCancel}>
+              <p>Cancel</p>
+              <CancelIcon />
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
 
