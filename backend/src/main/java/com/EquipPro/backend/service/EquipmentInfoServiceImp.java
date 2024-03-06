@@ -154,6 +154,11 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
         }
         equipment.get().setType(equipmentInfo.getType());
         equipment.get().setAvailable(equipmentInfo.getAvailable());
+        Client owner = equipment.get().getOwner();
+        if (owner != null){
+            owner.getEquipment().remove(equipment.get());
+            clientRepository.save(owner);
+        }
         if (equipmentInfo.getOwner() != null){
             equipment.get().setOwner(equipmentInfo.getOwner());
         }

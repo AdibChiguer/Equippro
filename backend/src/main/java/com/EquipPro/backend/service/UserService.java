@@ -17,4 +17,5 @@ public interface UserService {
     User updateClient(Client client);
     User updateTechnician(Technician technician);
     List<Client> getAllClient();
+    List<Technician> getAllTechnician();
 }

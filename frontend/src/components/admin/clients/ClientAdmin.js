@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { Button } from "@chakra-ui/react";
-
-import DATA from './data'
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './clientAdmin.css'
 import Filters from './Filters';
 
@@ -33,8 +33,13 @@ const columns = [
 
 
 const ClientAdmin = () => {
-  const [data, setData] = useState(DATA);
+  const [data, setData] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllClients();
+  }, []);
 
   const table = useReactTable({
     data,
@@ -61,6 +66,23 @@ const ClientAdmin = () => {
         ),
     },
   });
+
+  function getAllClients(){
+    axios.get('http://localhost:8080/users/clients/all')
+      .then((res) => {
+        console.log(res.data);
+        const formattedData = res.data.map(client => ({
+          cin: client.cin,
+          firstName: client.nom,
+          lastName: client.prenom,
+          email: client.email,
+        }));
+        setData(formattedData)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
 
 
   return (
@@ -92,7 +114,7 @@ const ClientAdmin = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
+                <tr key={row.id} onClick={() => navigate(`/client-details/${row.original.cin}`)}>
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                   ))}

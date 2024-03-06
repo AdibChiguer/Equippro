@@ -96,6 +96,44 @@ const EquipmentDetails = () => {
       });
   }
 
+  function saveChanges() {
+    console.log('Saving changes:', equipmentDetails);
+    const creationDateArray = equipmentDetails.creationdate.split('-').map(Number);
+    const creationDate = {
+        year: creationDateArray[0],
+        month: creationDateArray[1],
+        dayOfMonth: creationDateArray[2]
+    };
+    equipmentDetails.creationdate = creationDate;
+    
+    const updatedDetails = { 
+      ref: equipmentDetails.reference,
+      type: equipmentDetails.type,
+      available: equipmentDetails.available,
+      creationDate: creationDate,
+      owner: { cin: equipmentDetails.owner},
+     };
+
+    axios.put('http://localhost:8080/equipments/update', updatedDetails)
+      .then((res) => {
+        console.log(res);
+        Swal.fire({
+          icon: 'success',
+          title: 'Changes saved successfully',
+          showConfirmButton: true,
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'something went wrong. try again',
+        });
+      });
+  }
+
   function ConfirmDelete() {
     Swal.fire({
       title: 'Are you sure?',
@@ -119,7 +157,7 @@ const EquipmentDetails = () => {
 
   const handleEditToggle = () => {
     if (editMode && changesMade) {
-      console.log('Saving changes:', equipmentDetails); // Log the changes
+      saveChanges();
       setEditMode(false);
       setReadOnly(true);
       setChangesMade(false);
@@ -141,6 +179,8 @@ const EquipmentDetails = () => {
     setEquipmentDetails({ ...equipmentDetails, [name]: value });
     setChangesMade(true);
   };
+
+
 
   return (
     <div className="equipment-details-container">
@@ -165,7 +205,7 @@ const EquipmentDetails = () => {
         <div className="ref-available-container">
           <div className="ref">
             <label>Reference</label>
-            <input type="text" name="reference" value={equipmentDetails.reference} placeholder="Reference" readOnly={readOnly} onChange={handleInputChange} />
+            <input type="text" name="reference" value={equipmentDetails.reference} placeholder="Reference" readOnly />
           </div>
           <div className="available">
             <label>Available</label>

@@ -34,7 +34,7 @@ public class AuthController {
     private final JwtUtils jwtUtils;
 
     @PostMapping("/register/client")
-    @PreAuthorize("hasRole('admin')")
+//    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> registerUser(@RequestBody Client client){
         try{
             userServiceImp.registerClient(client);
@@ -45,7 +45,7 @@ public class AuthController {
     }
 
     @PostMapping("/register/technician")
-    @PreAuthorize("hasRole('admin')")
+//    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> registerUser(@RequestBody Technician technician){
         try{
             userServiceImp.registerTechnician(technician);
@@ -66,7 +66,7 @@ public class AuthController {
     }
 
     @PutMapping("/update/client")
-    @PreAuthorize("hasRole('admin')")
+//    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> updateClient(@RequestBody Client client){
         try {
             userServiceImp.updateClient(client);
@@ -79,7 +79,7 @@ public class AuthController {
     }
 
     @PutMapping("/update/technician")
-    @PreAuthorize("hasRole('admin')")
+//    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> updateTechnician(@RequestBody Technician technician){
         try {
             userServiceImp.updateTechnician(technician);

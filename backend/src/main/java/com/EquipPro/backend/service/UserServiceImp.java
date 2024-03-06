@@ -92,13 +92,20 @@ public class UserServiceImp implements UserService{
         theClient.get().setNom(client.getNom());
         theClient.get().setPrenom(client.getPrenom());
         theClient.get().setEmail(client.getEmail());
-        theClient.get().setPassword(passwordEncoder.encode(client.getPassword()));
+        if(client.getPassword() != null){
+            theClient.get().setPassword(passwordEncoder.encode(client.getPassword()));
+        }
         return clientRepository.save(theClient.get());
     }
 
     @Override
     public List<Client> getAllClient() {
         return clientRepository.findAll();
+    }
+
+    @Override
+    public List<Technician> getAllTechnician() {
+        return technicianRepository.findAll();
     }
 
     @Override

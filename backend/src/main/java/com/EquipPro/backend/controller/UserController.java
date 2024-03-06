@@ -2,6 +2,7 @@ package com.EquipPro.backend.controller;
 
 import com.EquipPro.backend.exception.UserNotFoundException;
 import com.EquipPro.backend.model.Client;
+import com.EquipPro.backend.model.Technician;
 import com.EquipPro.backend.model.User;
 import com.EquipPro.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +58,12 @@ public class UserController {
         List<Client> clients = userService.getAllClient();
         clients.forEach(user -> user.setPassword(null));
         return new ResponseEntity<>(clients, HttpStatus.OK);
+    }
+
+    @GetMapping("/technician/all")
+    public ResponseEntity<List<Technician>> getAllTechnician(){
+        List<Technician> technicians = userService.getAllTechnician();
+        technicians.forEach(user -> user.setPassword(null));
+        return new ResponseEntity<>(technicians, HttpStatus.OK);
     }
 }

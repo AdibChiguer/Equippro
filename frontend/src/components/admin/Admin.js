@@ -8,7 +8,8 @@ import TechnicianAdmin from './technicians/TechnicianAdmin';
 import Tickets from './tickets/Tickets'
 import { Routes , Route  } from 'react-router-dom';
 import EquipmentDetails from './equipments/EquipmentDetails';
-
+import ClientDetails from './clients/ClientDetails';
+import TechnicianDetails from './technicians/TechnicianDetails';
 
 
 const Admin = ({username}) => {
@@ -25,6 +26,8 @@ const Admin = ({username}) => {
             <Route path='/technicians' element={<TechnicianAdmin/>} />
             <Route path='/tickets' element={<Tickets/>} />
             <Route path='/equipment-details/:ref' element={<EquipmentDetails/>} />
+            <Route path='/client-details/:cin' element={<ClientDetails/>} />
+            <Route path='/technician-details/:cin' element={<TechnicianDetails/>} />
           </Routes>
         </div>
       </div>

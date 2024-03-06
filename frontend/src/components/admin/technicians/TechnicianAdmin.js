@@ -11,6 +11,7 @@ import {
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Filters from './Filters';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@chakra-ui/react";
 
 const columns = [
@@ -44,7 +45,7 @@ const columns = [
 const TechnicianAdmin = () => {
   const [data, setData] = useState(DATA);
   const [columnFilters, setColumnFilters] = useState([]);
-  
+  const navigate = useNavigate();
 
   const table = useReactTable({
     data,
@@ -72,6 +73,9 @@ const TechnicianAdmin = () => {
     },
   });
 
+  function getAllTechnicians(){
+    // fetch technicians
+  }
 
 
   return (
