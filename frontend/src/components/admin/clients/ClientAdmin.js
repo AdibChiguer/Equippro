@@ -93,7 +93,7 @@ const ClientAdmin = () => {
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
         />
-        <button className='comic-button'>
+        <button className='comic-button' onClick={() => navigate('/create-client')}>
           Create
         </button>
       </div>

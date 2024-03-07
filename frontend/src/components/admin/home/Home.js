@@ -1,79 +1,106 @@
-import React from 'react'
+import React , {useEffect , useState} from 'react'
 import './home.css'
 import Chart from 'react-apexcharts';
 import { useTheme } from '@mui/material/styles';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Home = () => {
+  const theme = useTheme();
+  const primary = theme.palette.primary.main;
+  const secondary = theme.palette.secondary.main;
+  const [data , setData] = useState([]);
 
-    // chart color
-    const theme = useTheme();
-    const primary = theme.palette.primary.main;
-    const secondary = theme.palette.secondary.main;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responses = await Promise.all([
+          axios.get('http://localhost:8080/users/clients/all'),
+          axios.get('http://localhost:8080/equipments/all'),
+          axios.get('http://localhost:8080/users/technician/all'),
+          axios.get('http://localhost:8080/equipments/available'),
+          axios.get('http://localhost:8080/equipments/not-used'),
+          axios.get('http://localhost:8080/tickets/all'),
+        ]);
+  
+        const newData = responses.map(response => response.data.length);
+        setData(newData);
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
+      }
+    };
+  
+    fetchData();
+  }, []);
 
-    // chart
-    const optionscolumnchart = {
-        chart: {
-            type: 'bar',
-            fontFamily: "'Plus Jakarta Sans', sans-serif;",
-            foreColor: '#adb0bb',
-            toolbar: {
-                show: true,
-            },
-            height: 370,
-        },
-        colors: [primary, secondary],
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                barHeight: '60%',
-                columnWidth: '32%',
-                borderRadius: [20],
-                borderRadiusApplication: 'end',
-                borderRadiusWhenStacked: 'all',
-            },
-        },
-
-        stroke: {
+  const optionscolumnchart = {
+    chart: {
+        type: 'bar',
+        fontFamily: "'Plus Jakarta Sans', sans-serif;",
+        foreColor: '#adb0bb',
+        toolbar: {
             show: true,
-            width: 5,
-            lineCap: "butt",
-            colors: ["transparent"],
-          },
-        dataLabels: {
-            enabled: false,
         },
-        legend: {
-            show: false,
+        height: 370,
+    },
+    colors: [primary, secondary],
+    plotOptions: {
+        bar: {
+            horizontal: false,
+            barHeight: '60%',
+            columnWidth: '32%',
+            borderRadius: [20],
+            borderRadiusApplication: 'end',
+            borderRadiusWhenStacked: 'all',
         },
-        grid: {
-            borderColor: 'rgba(0,0,0,0.1)',
-            strokeDashArray: 3,
-            xaxis: {
-                lines: {
-                    show: false,
-                },
-            },
-        },
-        yaxis: {
-            tickAmount: 10,
-        },
+    },
+    stroke: {
+        show: true,
+        width: 5,
+        lineCap: "butt",
+        colors: ["transparent"],
+      },
+    dataLabels: {
+        enabled: false,
+    },
+    legend: {
+        show: false,
+    },
+    grid: {
+        borderColor: 'rgba(0,0,0,0.1)',
+        strokeDashArray: 3,
         xaxis: {
-            categories: ['adib', '17/08', '18/08', '19/08', '20/08', '21/08', '22/08', '23/08'],
-            axisBorder: {
+            lines: {
                 show: false,
             },
         },
-        tooltip: {
-            theme: theme.palette.mode === 'dark' ? 'dark' : 'light',
-            fillSeriesColor: false,
+    },
+    yaxis: {
+        tickAmount: 10,
+        max: 10,
+    },
+    xaxis: {
+        categories: ['Clients', 'Equipments', 'Technicians', 'Available Equipments', 'Not used Equipments', 'Tickets'],
+        axisBorder: {
+            show: false,
         },
-    };
-    const seriescolumnchart = [
-        {
-            name: 'Eanings this month',
-            data: [355, 390, 300, 50, 390, 180, 355, 390],
-        },
-    ];
+    },
+    tooltip: {
+        theme: theme.palette.mode === 'dark' ? 'dark' : 'light',
+        fillSeriesColor: false,
+    },
+  };
+  const seriescolumnchart = [
+      {
+          name: 'Count',
+          data: data,
+      },
+  ];
 
 
 

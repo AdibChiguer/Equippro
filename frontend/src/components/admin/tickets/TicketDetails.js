@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Swal from 'sweetalert2';
+import './ticketDetails.css';
 
 const TicketDetails = () => {
   const { id } = useParams();
@@ -84,28 +85,27 @@ const TicketDetails = () => {
 
   function saveChanges() {
     console.log('Saving changes:', ticketDetails);
-    const openDateArray = ticketDetails.openDate.split('-').map(Number);
-    const openDate = {
-        year: openDateArray[0],
-        month: openDateArray[1],
-        dayOfMonth: openDateArray[2]
-    };
-    ticketDetails.openDate = openDate;
-    
+
     const updatedDetails = { 
       id: ticketDetails.id,
-      openDate: ticketDetails.openDate,
-      closeDate: ticketDetails.closeDate == 'Not closed yet' || ticketDetails.closeDate == null ? null : ticketDetails.closeDate,
+      openDate: ticketDetails.openDate, // Keep this as a string in the format yyyy-MM-dd
+      closeDate: ticketDetails.closeDate === 'Not closed yet' || ticketDetails.closeDate === null ? null : ticketDetails.closeDate,
       status: ticketDetails.status,
       comment: ticketDetails.comment,
       task: ticketDetails.task,
       equipment: ticketDetails.equipment,
-      technician: ticketDetails.technician
-     };
+      technician: { cin: ticketDetails.technician }
+    };
 
-    axios.put('http://localhost:8080/equipments/update', updatedDetails)
-      .then((res) => {
+    console.log(updatedDetails);
+
+    axios.put('http://localhost:8080/tickets/update', updatedDetails , {
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    }).then((res) => {
         console.log(res);
+        window.location.reload();
         Swal.fire({
           icon: 'success',
           title: 'Changes saved successfully',
@@ -122,6 +122,7 @@ const TicketDetails = () => {
         });
       });
   }
+
 
   const handleEditToggle = () => {
     if (editMode && changesMade) {
@@ -209,16 +210,18 @@ const TicketDetails = () => {
           </div>
         </div>
         <div className="technician-info-container">
-          <label>Technician</label>
-            {editMode == false ? (
-              <input type="text" name="technician" value={ticketDetails.technician ? ticketDetails.technician.cin : ''} placeholder="Technician" readOnly/>
-            ) : (
-              <select name="technician" id="technician-select" onChange={handleInputChange} value={ticketDetails.technician ? ticketDetails.technician.cin : ''}>
-                {technicians.map((technician) => {
-                  return <option key={technician.cin} value={technician.cin}>{technician.cin}</option>;
-                })}
-              </select>
-            )}
+          <div className="technician-content">
+            <label>Technician</label>
+              {editMode == false ? (
+                <input type="text" name="technician" value={ticketDetails.technician ? ticketDetails.technician.cin : ''} placeholder="Technician" readOnly/>
+              ) : (
+                <select name="technician" id="technician-select" onChange={handleInputChange} value={ticketDetails.technician ? ticketDetails.technician.cin : ''}>
+                  {technicians.map((technician) => {
+                    return <option key={technician.cin} value={technician.cin}>{technician.cin}</option>;
+                  })}
+                </select>
+              )}
+          </div>
         </div>
         <div className="edit-btn-container">
           <button onClick={handleEditToggle} disabled={editMode && !changesMade}>

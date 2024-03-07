@@ -1,5 +1,4 @@
 import React, {useState , useEffect} from 'react'
-import DATA from './data'
 import {
   flexRender,
   getCoreRowModel,
@@ -45,7 +44,7 @@ const columns = [
 ];
 
 const Tickets = () => {
-  const [data, setData] = useState(DATA);
+  const [data, setData] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const navigate = useNavigate();
 

@@ -98,19 +98,19 @@ const EquipmentDetails = () => {
 
   function saveChanges() {
     console.log('Saving changes:', equipmentDetails);
-    const creationDateArray = equipmentDetails.creationdate.split('-').map(Number);
-    const creationDate = {
-        year: creationDateArray[0],
-        month: creationDateArray[1],
-        dayOfMonth: creationDateArray[2]
-    };
-    equipmentDetails.creationdate = creationDate;
+    // const creationDateArray = equipmentDetails.creationdate.split('-').map(Number);
+    // const creationDate = {
+    //     year: creationDateArray[0],
+    //     month: creationDateArray[1],
+    //     dayOfMonth: creationDateArray[2]
+    // };
+    // equipmentDetails.creationdate = creationDate;
     
     const updatedDetails = { 
       ref: equipmentDetails.reference,
       type: equipmentDetails.type,
       available: equipmentDetails.available,
-      creationDate: creationDate,
+      creationDate: equipmentDetails.creationdate,
       owner: { cin: equipmentDetails.owner},
      };
 

@@ -86,7 +86,7 @@ const TechnicianAdmin = () => {
           firstName: technician.nom,
           lastName: technician.prenom,
           email: technician.email,
-          speciality : technician.speciality
+          speciality : technician.specialite
         }));
         setData(formattedData)
       })
@@ -104,7 +104,7 @@ const TechnicianAdmin = () => {
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
         />
-        <button className='comic-button'>
+        <button className='comic-button' onClick={() => navigate('/create-technician')}>
           Create
         </button>
       </div>

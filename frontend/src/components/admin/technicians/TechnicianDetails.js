@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 
 const TechnicianDetails = () => {
   const { cin } = useParams();
-  const [technicianDetails, setTechnicainDetails] = useState({
+  const [technicianDetails, setTechnicianDetails] = useState({
     cin: '',
     firstName: '',
     lastName: '',
@@ -39,7 +39,7 @@ const TechnicianDetails = () => {
         password: res.data.password,
         specialite: res.data.specialite,
       };
-      setTechnicainDetails(details);
+      setTechnicianDetails(details);
       setOriginalDetails(details);
     })
     .catch((err) => {
@@ -100,13 +100,13 @@ const TechnicianDetails = () => {
   const handleCancel = () => {
     setEditMode(false);
     setReadOnly(true);
-    setTechnicainDetails(originalDetails);
+    setTechnicianDetails(originalDetails);
     setChangesMade(false);
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setTechnicainDetails({ ...technicianDetails, [name]: value });
+    setTechnicianDetails({ ...technicianDetails, [name]: value });
     setChangesMade(true);
   };
 

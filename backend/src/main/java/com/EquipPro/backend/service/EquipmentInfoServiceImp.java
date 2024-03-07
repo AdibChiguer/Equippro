@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EquipmentInfoServiceImp implements EquipmentInfoService{
     private final EquipmentInfoRepository equipmentInfoRepository;
-    private final UserRepository userRepository;
     private final TechnicianRepository technicianRepository;
     private final ClientRepository clientRepository;
     private final TicketRepository ticketRepository;
@@ -66,7 +65,12 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
         }
         equipment.setCreationDate(LocalDate.now());
         equipment.setAvailable(true);
-        equipment.setOwner(null);
+        if (equipment.getOwner() == null){
+            equipment.setOwner(null);
+        } else{
+            Optional<Client> client = clientRepository.findById(equipment.getOwner().getCin());
+            client.ifPresent(equipment::setOwner);
+        }
         return equipmentInfoRepository.save(equipment);
     }
 

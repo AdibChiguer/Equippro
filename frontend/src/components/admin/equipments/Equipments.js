@@ -95,7 +95,7 @@ const Equipments = () => {
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
         />
-        <button className='comic-button'>Create</button>
+        <button className='comic-button' onClick={() => navigate('/create-equipment')}>Create</button>
       </div>
       <div className='equipment-table-container'>
         <table className='table'>
