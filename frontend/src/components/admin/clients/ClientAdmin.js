@@ -68,7 +68,11 @@ const ClientAdmin = () => {
   });
 
   function getAllClients(){
-    axios.get('http://localhost:8080/users/clients/all')
+    axios.get('http://localhost:8080/users/clients/all' , {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
       .then((res) => {
         console.log(res.data);
         const formattedData = res.data.map(client => ({

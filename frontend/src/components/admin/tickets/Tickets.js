@@ -79,7 +79,11 @@ const Tickets = () => {
   });
 
   function getAllTickets() {
-    axios.get('http://localhost:8080/tickets/all')
+    axios.get('http://localhost:8080/tickets/all' , {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
       .then((res) => {
         const formattedData = res.data.map(ticket => ({
           ticketId: ticket.id,

@@ -22,13 +22,13 @@ import java.util.Optional;
 public class EquipmentController {
     private final EquipmentInfoService equipmentInfoService;
     @GetMapping("/all")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<EquipmentInfo>> getAllEquipment(){
         return new ResponseEntity<>(equipmentInfoService.getAllEquipments(), HttpStatus.OK);
     }
 
     @GetMapping("/owned/{email}")
-//    @PreAuthorize("hasRole('admin') or hasRole('client') and #email == principal.username")
+    @PreAuthorize("hasRole('admin') or hasRole('client') and #email == principal.username")
     public ResponseEntity<?> getOwnedEquipment(@PathVariable String email){
         try {
             return new ResponseEntity<>(equipmentInfoService.getOwnedEquipments(email), HttpStatus.OK);
@@ -40,7 +40,7 @@ public class EquipmentController {
     }
 
     @GetMapping("/fixed/{email}")
-//    @PreAuthorize("hasRole('admin') or hasRole('technician') and #email == principal.username")
+    @PreAuthorize("hasRole('admin') or hasRole('technician') and #email == principal.username")
     public ResponseEntity<?> getFixedEquipment(@PathVariable String email){
         try {
             return new ResponseEntity<>(equipmentInfoService.getFixedEquipments(email), HttpStatus.OK);
@@ -52,7 +52,7 @@ public class EquipmentController {
     }
 
     @GetMapping("/fixing/{email}")
-//    @PreAuthorize("hasRole('admin') or hasRole('technician') and #email == principal.username")
+    @PreAuthorize("hasRole('admin') or hasRole('technician') and #email == principal.username")
     public ResponseEntity<?> getFixingEquipment(@PathVariable String email){
         try {
             return new ResponseEntity<>(equipmentInfoService.getFixingEquipments(email), HttpStatus.OK);
@@ -64,7 +64,7 @@ public class EquipmentController {
     }
 
     @PostMapping("/create")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> createEquipment(@RequestBody EquipmentInfo reqEquipment){
         try {
             EquipmentInfo equipmentInfo = equipmentInfoService.createEquipment(reqEquipment);
@@ -75,19 +75,19 @@ public class EquipmentController {
     }
 
     @GetMapping("/available")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<EquipmentInfo>> getAvailableEquipments(){
         return ResponseEntity.ok(equipmentInfoService.getAvailableEquipments());
     }
 
     @GetMapping("/not-used")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<EquipmentInfo>> getNotUsedEquipments(){
         return ResponseEntity.ok(equipmentInfoService.getNotUsedEquipments());
     }
 
     @GetMapping("/equipment/{ref}")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> getEquipment(@PathVariable String ref){
         try {
             return ResponseEntity.ok(equipmentInfoService.getEquipment(ref));
@@ -99,7 +99,7 @@ public class EquipmentController {
     }
 
     @DeleteMapping("/delete/equipment/{ref}")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> deleteEquipment(@PathVariable String ref){
         try{
             equipmentInfoService.deleteEquipment(ref);
@@ -112,7 +112,7 @@ public class EquipmentController {
     }
 
     @PostMapping("/assign/client")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<String> assignEquipmentToClient(@RequestParam("cin") String cin , @RequestParam("ref") String ref){
         try {
             equipmentInfoService.assignEquipmentToClient(ref , cin);
@@ -127,7 +127,7 @@ public class EquipmentController {
     }
 
     @PostMapping("/remove/client")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<String> removeEquipmentFromClient(@RequestParam("cin") String cin , @RequestParam("ref") String ref){
         try {
             equipmentInfoService.removeEquipmentFromClient(ref, cin);
@@ -140,7 +140,7 @@ public class EquipmentController {
     }
 
     @PutMapping("/update")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> updateEquipmentInfo(@RequestBody EquipmentInfo equipmentInfo){
         try {
             equipmentInfoService.updateEquipmentInfo(equipmentInfo);

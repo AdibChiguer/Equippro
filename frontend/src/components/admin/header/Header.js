@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import adminPhoto from '../../../assets/adminPhoto.jpg'
+import { Link } from 'react-router-dom';
 
 const Header = ({username}) => {
   const [anchorEl2, setAnchorEl2] = useState(null);
@@ -63,7 +64,9 @@ const Header = ({username}) => {
           <ListItemIcon>
             <PersonOutlinedIcon width={20} />
           </ListItemIcon>
-          <ListItemText>My Profile</ListItemText>
+          <Link to={'/profile'}>
+            <ListItemText>My Profile</ListItemText>
+          </Link>
         </MenuItem>
         <Box mt={1} py={1} px={2}>
           <Button  variant="outlined" color="primary" fullWidth>

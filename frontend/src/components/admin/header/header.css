@@ -21,7 +21,7 @@
   width: 100%;
   height: 100%;
 }
-.hello-div p{
+.hello-div p , a{
   color: #8D98AB;
   font-size: 1.3rem;
 }

@@ -78,7 +78,11 @@ const TechnicianAdmin = () => {
   });
 
   function getAllTechnicians(){
-    axios.get('http://localhost:8080/users/technician/all')
+    axios.get('http://localhost:8080/users/technician/all' , {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
       .then((res) => {
         console.log(res.data);
         const formattedData = res.data.map(technician => ({

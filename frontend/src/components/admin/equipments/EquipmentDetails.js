@@ -30,8 +30,11 @@ const EquipmentDetails = () => {
   }, [ref]);
 
   function getEquipmentDetails(reference) {
-    axios
-      .get(`http://localhost:8080/equipments/equipment/${reference}`)
+    axios.get(`http://localhost:8080/equipments/equipment/${reference}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((res) => {
         console.log(res.data);
         const creationDate = formatDate(res.data.creationDate);
@@ -56,8 +59,11 @@ const EquipmentDetails = () => {
   }
 
   function getAllClients() {
-    axios
-      .get('http://localhost:8080/users/clients/all')
+    axios.get('http://localhost:8080/users/clients/all', {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((res) => {
         setClients(res.data);
       })
@@ -73,8 +79,11 @@ const EquipmentDetails = () => {
 
   async function deleteEquipment(reference) {
     console.log(reference);
-    await axios
-      .delete(`http://localhost:8080/equipments/delete/equipment/${reference}`)
+    await axios.delete(`http://localhost:8080/equipments/delete/equipment/${reference}` , {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
       .then((res) => {
         console.log(res);
         Swal.fire({
@@ -114,7 +123,11 @@ const EquipmentDetails = () => {
       owner: { cin: equipmentDetails.owner},
      };
 
-    axios.put('http://localhost:8080/equipments/update', updatedDetails)
+    axios.put('http://localhost:8080/equipments/update', updatedDetails , {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
       .then((res) => {
         console.log(res);
         Swal.fire({

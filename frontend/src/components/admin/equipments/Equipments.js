@@ -62,7 +62,11 @@ const Equipments = () => {
   });
 
   function getAllEquipments() {
-    axios.get('http://localhost:8080/equipments/all')
+    axios.get('http://localhost:8080/equipments/all', {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((res) => {
         const formattedData = res.data.map(equipment => ({
           reference: equipment.ref,

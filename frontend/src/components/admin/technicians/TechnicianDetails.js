@@ -28,7 +28,11 @@ const TechnicianDetails = () => {
   }, []);
 
   function getTechnicianDetails(cinTechnician) {
-    axios.get(`http://localhost:8080/users/${cinTechnician}`)
+    axios.get(`http://localhost:8080/users/${cinTechnician}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
     .then((res) => {
       console.log(res.data);
       const details = {
@@ -65,7 +69,11 @@ const TechnicianDetails = () => {
     };
     console.log(updatedDetails);
     
-    axios.put('http://localhost:8080/auth/update/technician', updatedDetails)
+    axios.put('http://localhost:8080/auth/update/technician', updatedDetails , {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
       .then((res) => {
         console.log(res);
         Swal.fire({

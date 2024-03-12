@@ -38,7 +38,11 @@ const CreateClient = () => {
 
   function submit() {
     console.log(client);
-    axios.post('http://localhost:8080/auth/register/client', client)
+    axios.post('http://localhost:8080/auth/register/client', client , {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
     .then((response) => {
       console.log(response);
       Swal.fire({

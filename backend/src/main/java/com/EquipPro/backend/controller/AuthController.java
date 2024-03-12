@@ -19,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class AuthController {
     private final JwtUtils jwtUtils;
 
     @PostMapping("/register/client")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> registerUser(@RequestBody Client client){
         try{
             userServiceImp.registerClient(client);
@@ -45,7 +46,7 @@ public class AuthController {
     }
 
     @PostMapping("/register/technician")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> registerUser(@RequestBody Technician technician){
         try{
             userServiceImp.registerTechnician(technician);
@@ -66,7 +67,7 @@ public class AuthController {
     }
 
     @PutMapping("/update/client")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> updateClient(@RequestBody Client client){
         try {
             userServiceImp.updateClient(client);
@@ -79,7 +80,7 @@ public class AuthController {
     }
 
     @PutMapping("/update/technician")
-//    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<?> updateTechnician(@RequestBody Technician technician){
         try {
             userServiceImp.updateTechnician(technician);
@@ -92,20 +93,26 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest request){
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtTokenForUser(authentication);
-        AppUserDetails userDetails = (AppUserDetails) authentication.getPrincipal();
-        List<String> role = userDetails.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority).toList();
-        return ResponseEntity.ok(new JwtResponse(
-                userDetails.getCin(),
-                userDetails.getEmail(),
-                jwt,
-                role
-        ));
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest request) {
+        try {
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtTokenForUser(authentication);
+            AppUserDetails userDetails = (AppUserDetails) authentication.getPrincipal();
+            List<String> roles = userDetails.getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority).toList();
+            return ResponseEntity.ok(new JwtResponse(
+                    userDetails.getCin(),
+                    userDetails.getEmail(),
+                    jwt,
+                    roles
+            ));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Unauthorized");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
     }
 }

@@ -41,7 +41,11 @@ const CreateTechnician = () => {
 
   function submit() {
     console.log(technician);
-    axios.post('http://localhost:8080/auth/register/technician', technician)
+    axios.post('http://localhost:8080/auth/register/technician', technician , {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
     .then((response) => {
       console.log(response);
       Swal.fire({

@@ -28,7 +28,11 @@ const ClientDetails = () => {
 
   function getClientDetails(cinClient) {
     axios
-      .get(`http://localhost:8080/users/${cinClient}`)
+      .get(`http://localhost:8080/users/${cinClient}` , {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
       .then((res) => {
         console.log(res.data);
         const details = {
@@ -63,7 +67,11 @@ const ClientDetails = () => {
     };
     console.log(updatedDetails);
     
-    axios.put('http://localhost:8080/auth/update/client', updatedDetails)
+    axios.put('http://localhost:8080/auth/update/client', updatedDetails , {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
       .then((res) => {
         console.log(res);
         Swal.fire({

@@ -101,7 +101,8 @@ const TicketDetails = () => {
 
     axios.put('http://localhost:8080/tickets/update', updatedDetails , {
       headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
       }
     }).then((res) => {
         console.log(res);

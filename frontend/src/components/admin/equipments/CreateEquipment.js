@@ -16,7 +16,11 @@ const CreateEquipment = () => {
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/users/clients/all')
+    axios.get('http://localhost:8080/users/clients/all' , {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then(response => {
         setClients(response.data);
       })
@@ -58,7 +62,11 @@ const CreateEquipment = () => {
       owner: equipment.owner ? { cin: equipment.owner } : null,
     };
     
-    axios.post('http://localhost:8080/equipments/create', dataToSend)
+    axios.post('http://localhost:8080/equipments/create', dataToSend , {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then(response => {
         console.log('Equipment added:', response.data);
         Swal.fire({
