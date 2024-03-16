@@ -123,4 +123,13 @@ public class UserServiceImp implements UserService{
         theTechnician.get().setSpecialite(technician.getSpecialite());
         return technicianRepository.save(theTechnician.get());
     }
+
+    @Override
+    public User getUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()){
+            throw new UserNotFoundException("User not found");
+        }
+        return user.get();
+    }
 }

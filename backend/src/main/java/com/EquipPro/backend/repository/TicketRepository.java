@@ -13,5 +13,10 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     List<EquipmentInfo> getFixedEquipments(@Param("cin") String cin);
     @Query("SELECT t.equipment FROM Ticket t WHERE t.technician.cin = :cin AND t.status = 'underway'")
     List<EquipmentInfo> getFixingEquipments(@Param("cin") String cin);
-
+    @Query("SELECT t FROM Ticket t WHERE t.status = 'closed' ")
+    List<Ticket> getClosedTickets();
+    @Query("SELECT t FROM Ticket t WHERE t.status = 'underway' ")
+    List<Ticket> getUnderwayTickets();
+    @Query("SELECT t FROM Ticket t WHERE t.status = 'waiting' ")
+    List<Ticket> getWaitingTickets();
 }

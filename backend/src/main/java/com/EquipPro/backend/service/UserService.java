@@ -18,4 +18,5 @@ public interface UserService {
     User updateTechnician(Technician technician);
     List<Client> getAllClient();
     List<Technician> getAllTechnician();
+    User getUserByEmail(String email);
 }

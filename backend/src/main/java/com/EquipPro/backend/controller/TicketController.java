@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/tickets")
@@ -67,5 +69,15 @@ public class TicketController {
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during the update of the ticket");
         }
+    }
+
+    @GetMapping("/statistics")
+    public ResponseEntity<Map<String, Object>> getTicketStatistics() {
+        Map<String, Object> statistics = new HashMap<>();
+        statistics.put("closed", ticketService.getClosedTickets());
+        statistics.put("underway", ticketService.getUnderwayTickets());
+        statistics.put("waiting", ticketService.getWaitTickets());
+
+        return ResponseEntity.ok(statistics);
     }
 }

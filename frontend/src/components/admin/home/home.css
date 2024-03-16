@@ -9,27 +9,72 @@
   /* box-shadow: #919eab4d 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px; */
 }
 .header-chart-container{
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   padding-left: 10px;
 }
 .header-chart-container span{
   font-weight: 600;
   font-size: 1.5rem;
   line-height: 1.6rem;
+  color: #5D87FF;
 }
-.apexcharts-menu-icon{
-  margin-top: -50px;
-  margin-left: -37px;
+
+.overview-container{
+  padding-top: 0px;
+  padding-bottom: 20px;
+  margin-top: 10px;
 }
-.apexcharts-menu-icon svg {
-  scale: 2;
+
+.overview-content {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
 }
-.apexcharts-menu{
+
+.overview-item{
+  padding: 20px;
+  border-radius: 10px;
   box-shadow: #919eab4d 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
-  width: 200px;
+  margin-bottom: 20px;
+  width: 100%;
+  height: 150px;
 }
-.apexcharts-menu-item{
-  padding: 20px 10px !important;
-  font-size: 1rem !important;
-  text-align: center;
+
+.overview-item-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.overview-item-header svg{
+  width: 30px;
+  height: 30px;
+  fill: #5D87FF;
+}
+
+.overview-item-title{
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #5D87FF;
+}
+
+.overview-item-value{
+  font-size: 3rem;
+  font-weight: 600;
+  color: #5D87FF;
+}
+
+.apexchart-container{
+  display: flex;
+  justify-content: center;
+}
+
+.overview-chart {
+  height: 100%;
+  width: 500px;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: #919eab4d 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
 }

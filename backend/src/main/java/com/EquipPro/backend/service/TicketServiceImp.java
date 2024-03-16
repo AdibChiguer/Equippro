@@ -30,7 +30,6 @@ public class TicketServiceImp implements TicketService{
     public List<Ticket> getAllTickets() {
         return ticketRepository.findAll();
     }
-
     @Override
     public Ticket getTicket(Long id) {
         Optional<Ticket> ticket = ticketRepository.findById(id);
@@ -39,16 +38,17 @@ public class TicketServiceImp implements TicketService{
         }
         return ticket.get();
     }
-
     @Override
     public Ticket createTicket(Ticket ticket) {
         Optional<EquipmentInfo> equipment = equipmentInfoRepository.findById(ticket.getEquipment().getRef());
-        Optional<Technician> technician = technicianRepository.findById(ticket.getTechnician().getCin());
         if (equipment.isEmpty()){
             throw new EquipmentNotFoundException("the equipment with the reference : "+ ticket.getEquipment().getRef() + " not found");
-        } else if (technician.isEmpty()) {
-            throw new UserNotFoundException("the technician with the cin : " +ticket.getTechnician().getCin()+ " not found");
-        } else {
+        }
+        if(ticket.getTechnician() != null){
+            Optional<Technician> technician = technicianRepository.findById(ticket.getTechnician().getCin());
+            if (technician.isEmpty()) {
+                throw new UserNotFoundException("the technician with the cin : " +ticket.getTechnician().getCin()+ " not found");
+            }
             ticket.setStatus("underway");
             ticket.setOpenDate(LocalDate.now());
             ticket.setEquipment(equipment.get());
@@ -59,22 +59,25 @@ public class TicketServiceImp implements TicketService{
                     equipment.get().getOwner().getNom(),
                     technician.get().getNom());
             String clientSubject = emailTemplate.getClientRecievedTicketMessage();
-            String confirmationToUser = emailService.sendMail(equipment.get().getOwner().getEmail(),
+            emailService.sendMail(equipment.get().getOwner().getEmail(),
                     "notification" ,
                     clientSubject );
-            System.out.println("############### client :"+confirmationToUser);
             // send email to technician
             emailTemplate.setTechnicianRecievedTicketMessage(equipment.get().getRef(),
                     technician.get().getNom());
             String technicianSubject = emailTemplate.getTechnicianRecievedTicketMessage();
-            String confirmationToTechnician = emailService.sendMail(technician.get().getEmail(),
+            emailService.sendMail(technician.get().getEmail(),
                     "notification" ,
                     technicianSubject );
-            System.out.println("############### technician :"+confirmationToUser);
+            return ticketRepository.save(ticket);
+        } else {
+            ticket.setStatus("waiting");
+            ticket.setOpenDate(LocalDate.now());
+            ticket.setEquipment(equipment.get());
+            ticket.setTechnician(null);
             return ticketRepository.save(ticket);
         }
     }
-
     @Override
     public void closeTicket(Long id) {
         Optional<Ticket> ticket = ticketRepository.findById(id);
@@ -94,7 +97,6 @@ public class TicketServiceImp implements TicketService{
             ticketRepository.save(ticket.get());
         }
     }
-
     @Override
     public Ticket updateTicket(Ticket ticket) {
         Optional<Ticket> t = ticketRepository.findById(ticket.getId());
@@ -107,7 +109,37 @@ public class TicketServiceImp implements TicketService{
             Optional<Technician> technician = technicianRepository.findById(ticket.getTechnician().getCin());
             technician.ifPresent(value -> value.getTicket().remove(t.get()));
             t.get().setTechnician(ticket.getTechnician());
+            EmailTemplate emailTemplate = new EmailTemplate();
+            // send email to client
+            emailTemplate.setClientRecievedTicketMessage(ticket.getEquipment().getRef(),
+                    ticket.getEquipment().getOwner().getNom(),
+                    ticket.getTechnician().getNom());
+            String clientSubject = emailTemplate.getClientRecievedTicketMessage();
+            emailService.sendMail(ticket.getEquipment().getOwner().getEmail(),
+                    "notification" ,
+                    clientSubject );
+            // send email to technician
+            emailTemplate.setTechnicianRecievedTicketMessage(ticket.getEquipment().getRef(),technician.get().getNom());
+            String technicianSubject = emailTemplate.getTechnicianRecievedTicketMessage();
+            emailService.sendMail(technician.get().getEmail(),
+                    "notification" ,
+                    technicianSubject );
         }
         return ticketRepository.save(t.get());
+    }
+
+    @Override
+    public List<Ticket> getClosedTickets() {
+        return ticketRepository.getClosedTickets();
+    }
+
+    @Override
+    public List<Ticket> getUnderwayTickets() {
+        return ticketRepository.getUnderwayTickets();
+    }
+
+    @Override
+    public List<Ticket> getWaitTickets() {
+        return ticketRepository.getWaitingTickets();
     }
 }

@@ -11,4 +11,7 @@ public interface TicketService {
     Ticket createTicket(Ticket ticket);
     void closeTicket(Long id);
     Ticket updateTicket(Ticket ticket);
+    List<Ticket> getClosedTickets();
+    List<Ticket> getUnderwayTickets();
+    List<Ticket> getWaitTickets();
 }
