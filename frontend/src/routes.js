@@ -18,46 +18,31 @@ import Auth from './components/auth/Auth';
 import Error from './components/auth/error/Error';
 import Login from './components/auth/login/Login';
 import Admin from './components/admin/Admin';
-
-// export const adminRoutes = [
-//   { path: '/home', element: <Home /> },
-//   { path: '/equipments', element: <Equipments /> },
-//   { path: '/equipment-details/:ref', element: <EquipmentDetails /> },
-//   { path: '/create-equipment', element: <CreateEquipment /> },
-//   { path: '/clients', element: <ClientAdmin /> },
-//   { path: '/client-details/:cin', element: <ClientDetails /> },
-//   { path: '/create-client', element: <CreateClient /> },
-//   { path: '/technicians', element: <TechnicianAdmin /> },
-//   { path: '/technician-details/:cin', element: <TechnicianDetails /> },
-//   { path: '/create-technician', element: <CreateTechnician /> },
-//   { path: '/tickets', element: <Tickets /> },
-//   { path: '/ticket-details/:id', element: <TicketDetails /> },
-//   { path: '/profile', element: <Profile /> },
-// ];
-
-// export const publicRoutes = [
-//   { path: './login', element: <h1>login</h1> },
-// ];
+import Client from './components/client/Client';
+import ClientEquipments from './components/client/equipments/Equipments';
+import ProtectedRoute from './components/ProtectedRoute';
+import ClientProfile from './components/client/profile/Profile';
+import ClientEquipmentDetails from './components/client/equipments/EquipmentDetails';
 
 const Router = [
   {
-    path: '/',
-    element : <Admin/>,
+    path: '/admin',
+    element : <ProtectedRoute requiredRoles={['ROLE_admin']}><Admin/></ProtectedRoute>,
     children : [
-      { path: '/', element: <Navigate to="/home" /> },
-      { path: '/home', element: <Home /> },
-      { path: '/equipments', element: <Equipments /> },
-      { path: '/equipment-details/:ref', element: <EquipmentDetails /> },
-      { path: '/create-equipment', element: <CreateEquipment /> },
-      { path: '/clients', element: <ClientAdmin /> },
-      { path: '/client-details/:cin', element: <ClientDetails /> },
-      { path: '/create-client', element: <CreateClient /> },
-      { path: '/technicians', element: <TechnicianAdmin /> },
-      { path: '/technician-details/:cin', element: <TechnicianDetails /> },
-      { path: '/create-technician', element: <CreateTechnician /> },
-      { path: '/tickets', element: <Tickets /> },
-      { path: '/ticket-details/:id', element: <TicketDetails /> },
-      { path: '/profile', element: <Profile /> },
+      { path: '/admin', element: <Navigate to="/admin/home" /> },
+      { path: '/admin/home', element: <Home /> },
+      { path: '/admin/equipments', element: <Equipments /> },
+      { path: '/admin/equipment-details/:ref', element: <EquipmentDetails /> },
+      { path: '/admin/create-equipment', element: <CreateEquipment /> },
+      { path: '/admin/clients', element: <ClientAdmin /> },
+      { path: '/admin/client-details/:cin', element: <ClientDetails /> },
+      { path: '/admin/create-client', element: <CreateClient /> },
+      { path: '/admin/technicians', element: <TechnicianAdmin /> },
+      { path: '/admin/technician-details/:cin', element: <TechnicianDetails /> },
+      { path: '/admin/create-technician', element: <CreateTechnician /> },
+      { path: '/admin/tickets', element: <Tickets /> },
+      { path: '/admin/ticket-details/:id', element: <TicketDetails /> },
+      { path: '/admin/profile', element: <Profile /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
@@ -70,6 +55,17 @@ const Router = [
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
+  {
+    path: '/client',
+    element: <ProtectedRoute requiredRoles={['ROLE_client']}><Client/></ProtectedRoute>,
+    children: [
+      { path: '/client', element: <Navigate to="/client/home" /> },
+      { path: '/client/home', element: <ClientEquipments /> },
+      { path: '/client/equipment-details/:ref', element: <ClientEquipmentDetails /> },
+      { path: '/client/profile', element: <ClientProfile /> },
+      { path: '*', element: <Navigate to="/auth/404" /> },
+    ],
+  }
 ]
 
 export default Router;

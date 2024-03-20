@@ -61,11 +61,13 @@ const Header = ({username}) => {
         }}
       >
         <MenuItem>
-          <ListItemIcon>
-            <PersonOutlinedIcon width={20} />
-          </ListItemIcon>
-          <Link to={'/admin/profile'}>
-            <ListItemText>My Profile</ListItemText>
+          <Link to={'/client/profile'}>
+            <div className="profile-btn">
+              <ListItemIcon>
+                <PersonOutlinedIcon width={20} />
+              </ListItemIcon>
+              <ListItemText>My Profile</ListItemText>
+            </div>
           </Link>
         </MenuItem>
         <Box mt={1} py={1} px={2}>

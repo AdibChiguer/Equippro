@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -167,5 +168,19 @@ public class EquipmentInfoServiceImp implements EquipmentInfoService{
             equipment.get().setOwner(equipmentInfo.getOwner());
         }
         equipmentInfoRepository.save(equipment.get());
+    }
+
+    @Override
+    public Optional<EquipmentInfo> getOwnedEquipmentInfo(String ref, String email) {
+        Optional<EquipmentInfo> equipment = equipmentInfoRepository.findById(ref);
+        if(equipment.isPresent()){
+            if (Objects.equals(equipment.get().getOwner().getEmail(), email)){
+                return equipment;
+            } else {
+                throw new UserNotFoundException("User not found");
+            }
+        } else{
+            throw new EquipmentNotFoundException("Equipment not found");
+        }
     }
 }

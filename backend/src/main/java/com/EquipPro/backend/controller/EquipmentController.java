@@ -5,6 +5,7 @@ import com.EquipPro.backend.exception.EquipmentNotFoundException;
 import com.EquipPro.backend.exception.UserNotFoundException;
 import com.EquipPro.backend.model.EquipmentInfo;
 import com.EquipPro.backend.model.User;
+import com.EquipPro.backend.repository.EquipmentInfoRepository;
 import com.EquipPro.backend.repository.UserRepository;
 import com.EquipPro.backend.service.EquipmentInfoService;
 import lombok.RequiredArgsConstructor;
@@ -149,6 +150,18 @@ public class EquipmentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Equipment not found");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error on the server during the update of the equipment");
+        }
+    }
+
+    @GetMapping("/owned/info")
+    @PreAuthorize("hasRole('client')")
+    public ResponseEntity<?> getOwnedEquipmentInfo(@RequestParam("ref") String ref , @RequestParam("email") String email){
+        try {
+            return ResponseEntity.ok(equipmentInfoService.getOwnedEquipmentInfo(ref,email));
+        } catch (UserNotFoundException | EquipmentNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error happen in the server will get the equipment");
         }
     }
 }

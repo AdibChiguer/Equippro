@@ -1,8 +1,8 @@
-import React , {useState , useEffect} from 'react';
+import React , {useState} from 'react';
 import './login.css';
 import logo from '../../../assets/E.png'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [isSubmited, setIsSubmited] = useState(false);
@@ -10,8 +10,8 @@ const Login = () => {
     email: '',
     password: '',
   })
-
-  const [err , setErr] = useState('')
+  const [err , setErr] = useState('');
+  const navigate = useNavigate();
 
   function getemail(e) { 
     setUser(prevUser => ({ ...prevUser, email: e.target.value }))
@@ -27,18 +27,25 @@ const Login = () => {
       setErr('please fill all the fields')
       return;
     }
-    console.log(user);
     await axios.post('http://localhost:8080/auth/login', {
       email: user.email,
       password: user.password
     })
     .then(res => {
       console.log(res.data);
+      localStorage.setItem('token', res.data.token);
       if(res.data.roles[0] === 'ROLE_admin') {
-        localStorage.setItem('token', res.data.token);
-        window.location = '/home';
+        navigate('/admin/home');
+        console.log("navigate('/admin/home');")
+      } else if (res.data.roles[0] === 'ROLE_client') {
+        navigate('/client/home');
+        console.log("navigate('/client/home');")
+      } else if (res.data.roles[0] === 'ROLE_technician') {
+        navigate('/technician/home');
+        console.log("navigate('/technician/home');")
       } else {
-        setErr('Unauthorized : juste the admin can login here');
+        setErr('Invalid');
+        setIsSubmited(false);
       }
     })
     .catch(err => {
@@ -70,7 +77,7 @@ const Login = () => {
               <label htmlFor="password">Password</label>
               <input type="password" id="password"autoComplete='false' onChange={getpassword}/>
             </div>
-            <button className="login-btn" onClick={() => {login()}} disabled={isSubmited}>{isSubmited ? 'Louding...' : 'Log in'}</button>
+            <button type="button" className="login-btn" onClick={(e) => {e.preventDefault(); login();}} disabled={isSubmited}>{isSubmited ? 'Loading...' : 'Log in'}</button>
           </form>
         </div>
       </div>
