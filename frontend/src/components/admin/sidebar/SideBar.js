@@ -18,11 +18,11 @@ const SideBar = () => {
 
   // determine active item based on pathname
   const determineActiveItem = (pathname) => {
-    if (pathname === '/home') return 'Overview';
-    if (pathname === '/equipments') return 'Equipments';
-    if (pathname === '/clients') return 'Clients';
-    if (pathname === '/technicians') return 'Technicians';
-    if (pathname === '/tickets') return 'Tickets';
+    if (pathname === '/admin/home') return 'Overview';
+    if (pathname === '/admin/equipments') return 'Equipments';
+    if (pathname === '/admin/clients') return 'Clients';
+    if (pathname === '/admin/technicians') return 'Technicians';
+    if (pathname === '/admin/tickets') return 'Tickets';
     return '';
   };
 
@@ -38,7 +38,7 @@ const SideBar = () => {
       </div>
       <div className='sidebar-links-container'>
         <span className='sidebar-nav-span'>HOME</span>
-        <Link to={'/home'}>
+        <Link to={'/admin/home'}>
           <div 
             className={`sidebar-navigation-btn ${activeItem === 'Overview' ? 'active' : 'hover'}`} 
             onClick={() => handleItemClick('Overview')}
@@ -48,7 +48,7 @@ const SideBar = () => {
           </div>
         </Link>
         <span className='sidebar-nav-span'>GESTION</span>
-        <Link to={'/equipments'}>
+        <Link to={'/admin/equipments'}>
           <div 
             className={`sidebar-navigation-btn ${activeItem === 'Equipments' ? 'active' : 'hover'}`} 
             onClick={() => handleItemClick('Equipments')}
@@ -57,7 +57,7 @@ const SideBar = () => {
               <p>Equipments</p>
           </div>
         </Link>
-        <Link to={'/clients'}>
+        <Link to={'/admin/clients'}>
           <div 
             className={`sidebar-navigation-btn ${activeItem === 'Clients' ? 'active' : 'hover'}`} 
             onClick={() => handleItemClick('Clients')}
@@ -66,7 +66,7 @@ const SideBar = () => {
               <p>Clients</p>
           </div>
         </Link>
-        <Link to={'/technicians'}>
+        <Link to={'/admin/technicians'}>
           <div 
             className={`sidebar-navigation-btn ${activeItem === 'Technicians' ? 'active' : 'hover'}`} 
             onClick={() => handleItemClick('Technicians')}
@@ -75,7 +75,7 @@ const SideBar = () => {
               <p>Technicians</p>
           </div>
         </Link>
-        <Link to={'/tickets'}>
+        <Link to={'/admin/tickets'}>
           <div 
             className={`sidebar-navigation-btn ${activeItem === 'Tickets' ? 'active' : 'hover'}`} 
             onClick={() => handleItemClick('Tickets')}

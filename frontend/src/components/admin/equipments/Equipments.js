@@ -99,7 +99,7 @@ const Equipments = () => {
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
         />
-        <button className='comic-button' onClick={() => navigate('/create-equipment')}>Create</button>
+        <button className='comic-button' onClick={() => navigate('/admin/create-equipment')}>Create</button>
       </div>
       <div className='equipment-table-container'>
         <table className='table'>
@@ -114,7 +114,7 @@ const Equipments = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} onClick={() => navigate(`/equipment-details/${row.original.reference}`)} className="link">
+              <tr key={row.id} onClick={() => navigate(`/admin/equipment-details/${row.original.reference}`)} className="link">
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                 ))}

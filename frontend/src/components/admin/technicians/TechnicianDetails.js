@@ -139,7 +139,7 @@ const TechnicianDetails = () => {
     <div className="equipment-details-container">
       <div className="equipment-details-header">
         <div className="go-back-container">
-          <Link to={'/technicians'}>
+          <Link to={'/admin/technicians'}>
             <button>
               <ArrowBackRoundedIcon />
               <p>Back</p>

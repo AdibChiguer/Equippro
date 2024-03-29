@@ -14,4 +14,6 @@ public interface TicketService {
     List<Ticket> getClosedTickets();
     List<Ticket> getUnderwayTickets();
     List<Ticket> getWaitTickets();
+    List<Ticket> getOwnedTickets(String TechnicianEmail);
+    List<Ticket> getOwnedTicketsClient(String clientEmail);
 }

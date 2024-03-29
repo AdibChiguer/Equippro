@@ -1,28 +1,27 @@
-import React, {useState} from 'react'
-import './header.css'
-import {
-  Box,
-  Menu,
-  Button,
-  IconButton,
-  MenuItem,
-  ListItemIcon,
-  ListItemText
-} from '@mui/material';
+import React, { useState } from 'react';
+import './header.css';
+import { Box, Menu, Button, IconButton, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import adminPhoto from '../../../assets/adminPhoto.jpg'
-import { Link } from 'react-router-dom';
+import adminPhoto from '../../../assets/adminPhoto.jpg';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Header = ({username}) => {
+const Header = ({ username }) => {
   const [anchorEl2, setAnchorEl2] = useState(null);
+  const navigate = useNavigate();
+
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
   };
+
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
 
-
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    console.log('logout');
+    navigate('/');
+  };
 
   return (
     <div className='header-container'>
@@ -43,7 +42,7 @@ const Header = ({username}) => {
         onClick={handleClick2}
       >
         <div className='profile-photo'>
-          <img src={adminPhoto} alt="profile"/>
+          <img src={adminPhoto} alt="profile" />
         </div>
       </IconButton>
       <Menu
@@ -71,13 +70,13 @@ const Header = ({username}) => {
           </Link>
         </MenuItem>
         <Box mt={1} py={1} px={2}>
-          <Button  variant="outlined" color="primary" fullWidth>
+          <Button variant="outlined" color="primary" fullWidth onClick={handleLogout}>
             Logout
           </Button>
         </Box>
       </Menu>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

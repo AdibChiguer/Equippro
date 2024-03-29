@@ -2,6 +2,7 @@ package com.EquipPro.backend.repository;
 
 import com.EquipPro.backend.model.EquipmentInfo;
 import com.EquipPro.backend.model.Ticket;
+import com.EquipPro.backend.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +20,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     List<Ticket> getUnderwayTickets();
     @Query("SELECT t FROM Ticket t WHERE t.status = 'waiting' ")
     List<Ticket> getWaitingTickets();
+    List<Ticket> getByTechnicianEmail(String email);
+    List<Ticket> getByEquipmentOwnerEmail(String equipment_owner_email);
 }

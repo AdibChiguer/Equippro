@@ -8,6 +8,7 @@ import com.EquipPro.backend.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class TicketController {
     private final TicketService ticketService;
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<Ticket>> getAllTickets(){
         return ResponseEntity.ok(ticketService.getAllTickets());
     }
@@ -43,7 +45,7 @@ public class TicketController {
         } catch (EquipmentNotFoundException | UserNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating the ticket");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -79,5 +81,14 @@ public class TicketController {
         statistics.put("waiting", ticketService.getWaitTickets());
 
         return ResponseEntity.ok(statistics);
+    }
+
+    @GetMapping("/owned-tickets/{email}")
+    public ResponseEntity<?> getOwnedTickets(@PathVariable String email){
+        try{
+            return ResponseEntity.ok(ticketService.getOwnedTickets(email));
+        } catch (UserNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

@@ -1,5 +1,6 @@
 import React, {useState , useEffect} from 'react';
 import Header from './header/Header';
+import SideBar from './sidebar/SideBar';
 import { Outlet } from 'react-router-dom';
 import axios from 'axios';
 import { useJwt } from 'react-jwt';
@@ -24,9 +25,10 @@ const Client = ({ username }) => {
 
   return (
     <div>
-      <div className='main-container-client'>
+      <SideBar />
+      <div className='main-container'>
         <Header username={user} />
-        <div className='main-div-client'>
+        <div className='main-div'>
           <Outlet />
         </div>
       </div>

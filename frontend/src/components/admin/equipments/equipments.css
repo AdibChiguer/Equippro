@@ -46,30 +46,18 @@
   background-color: #b4c3d34d;
 }
 .comic-button {
-  display: inline-block;
-  padding: 5px 10px;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  color: #fff;
-  background-color: #5179bf;
-  border: 2px solid #000;
-  border-radius: 10px;
-  box-shadow: 2px 2px 0px #000;
-  transition: all 0.3s ease;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
   cursor: pointer;
-}
-.comic-button:hover {
-  background-color: #fff;
-  color: #5179bf;
-  border: 2px solid #5179bf;
-  box-shadow: 5px 5px 0px #5179bf;
-}
-.comic-button:active {
-  background-color: #5179bf;
-  box-shadow: none;
-  transform: translateY(4px);
+  background-color: #3B86FF;
+  color: rgb(255, 255, 255);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 /* ========= */

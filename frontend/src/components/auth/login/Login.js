@@ -41,8 +41,8 @@ const Login = () => {
         navigate('/client/home');
         console.log("navigate('/client/home');")
       } else if (res.data.roles[0] === 'ROLE_technician') {
-        navigate('/technician/home');
-        console.log("navigate('/technician/home');")
+        navigate('/technician/fixing');
+        console.log("navigate('/technician/fixing');")
       } else {
         setErr('Invalid');
         setIsSubmited(false);

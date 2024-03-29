@@ -19,4 +19,6 @@ public interface UserService {
     List<Client> getAllClient();
     List<Technician> getAllTechnician();
     User getUserByEmail(String email);
+    User getUserInfoByEmail(String email);
+    Admin getAdminInfoByEmail(String email);
 }

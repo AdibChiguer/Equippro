@@ -19,10 +19,18 @@ import Error from './components/auth/error/Error';
 import Login from './components/auth/login/Login';
 import Admin from './components/admin/Admin';
 import Client from './components/client/Client';
+import Technician from './components/technician/Technician';
 import ClientEquipments from './components/client/equipments/Equipments';
 import ProtectedRoute from './components/ProtectedRoute';
 import ClientProfile from './components/client/profile/Profile';
 import ClientEquipmentDetails from './components/client/equipments/EquipmentDetails';
+import FixingEquipments from './components/technician/fixing-equipments/FixingEquipments';
+import FixedEquipments from './components/technician/fixed-equipments/FixedEquipments';
+import TechnicianTickets from './components/technician/tickets/Tickets';
+import TechnicianProfile from './components/technician/profile/Profile';
+import CreateTicket from './components/admin/tickets/CreateTicket';
+import ClientTickets from './components/client/tickets/Tickets';
+
 
 const Router = [
   {
@@ -42,6 +50,7 @@ const Router = [
       { path: '/admin/create-technician', element: <CreateTechnician /> },
       { path: '/admin/tickets', element: <Tickets /> },
       { path: '/admin/ticket-details/:id', element: <TicketDetails /> },
+      { path: '/admin/create-ticket', element: <CreateTicket /> },
       { path: '/admin/profile', element: <Profile /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
@@ -63,6 +72,20 @@ const Router = [
       { path: '/client/home', element: <ClientEquipments /> },
       { path: '/client/equipment-details/:ref', element: <ClientEquipmentDetails /> },
       { path: '/client/profile', element: <ClientProfile /> },
+      { path: '/client/tickets', element: <ClientTickets />},
+      { path: '*', element: <Navigate to="/auth/404" /> },
+    ],
+  },
+  {
+    path: '/technician',
+    element: <ProtectedRoute requiredRoles={['ROLE_technician']}><Technician/></ProtectedRoute>,
+    children: [
+      { path: '/technician', element: <Navigate to="/technician/fixing" /> },
+      { path: '/technician/fixing', element: <FixingEquipments /> },
+      { path: '/technician/fixed', element: <FixedEquipments /> },
+      { path: '/technician/tickets', element: <TechnicianTickets /> },
+      { path: '/technician/ticket-details/id', element: <TechnicianTickets /> },
+      { path: '/technician/profile', element: <TechnicianProfile /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   }

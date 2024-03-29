@@ -138,7 +138,7 @@ const ClientDetails = () => {
     <div className="equipment-details-container">
       <div className="equipment-details-header">
         <div className="go-back-container">
-          <Link to={'/clients'}>
+          <Link to={'/admin/clients'}>
             <button>
               <ArrowBackRoundedIcon />
               <p>Back</p>

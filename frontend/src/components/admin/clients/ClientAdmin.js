@@ -97,7 +97,7 @@ const ClientAdmin = () => {
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
         />
-        <button className='comic-button' onClick={() => navigate('/create-client')}>
+        <button className='comic-button' onClick={() => navigate('/admin/create-client')}>
           Create
         </button>
       </div>
@@ -118,7 +118,7 @@ const ClientAdmin = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-                <tr key={row.id} onClick={() => navigate(`/client-details/${row.original.cin}`)}>
+                <tr key={row.id} onClick={() => navigate(`/admin/client-details/${row.original.cin}`)}>
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                   ))}

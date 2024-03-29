@@ -31,7 +31,6 @@ public class UserServiceImp implements UserService{
         allUsers.addAll(technicians);
         return allUsers;
     }
-
     @Override
     public User getUser(String cin) {
         Optional<User> user = userRepository.findById(cin);
@@ -40,7 +39,6 @@ public class UserServiceImp implements UserService{
         }
         return user.get();
     }
-
     @Override
     public void deleteUser(String email) {
         Optional<User> user = userRepository.findByEmail(email);
@@ -49,7 +47,6 @@ public class UserServiceImp implements UserService{
         }
         userRepository.deleteByEmail(email);
     }
-
     @Override
     public void registerClient(Client client) {
         if(clientRepository.existsByEmail(client.getEmail()) || clientRepository.existsById(client.getCin())){
@@ -60,7 +57,6 @@ public class UserServiceImp implements UserService{
         client.setPassword(passwordEncoder.encode(client.getPassword()));
         userRepository.save(client);
     }
-
     @Override
     public void registerTechnician(Technician technician) {
         if (technicianRepository.existsByEmail(technician.getEmail()) || technicianRepository.existsById(technician.getCin())){
@@ -71,7 +67,6 @@ public class UserServiceImp implements UserService{
         technician.setPassword(passwordEncoder.encode(technician.getPassword()));
         userRepository.save(technician);
     }
-
     @Override
     public void registerAdmin(Admin admin) {
         if(adminRepository.existsByEmail(admin.getEmail()) || adminRepository.existsById(admin.getCin())){
@@ -82,7 +77,6 @@ public class UserServiceImp implements UserService{
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         userRepository.save(admin);
     }
-
     @Override
     public User updateClient(Client client) {
         Optional<Client> theClient = clientRepository.findById(client.getCin());
@@ -97,17 +91,14 @@ public class UserServiceImp implements UserService{
         }
         return clientRepository.save(theClient.get());
     }
-
     @Override
     public List<Client> getAllClient() {
         return clientRepository.findAll();
     }
-
     @Override
     public List<Technician> getAllTechnician() {
         return technicianRepository.findAll();
     }
-
     @Override
     public User updateTechnician(Technician technician) {
         Optional<Technician> theTechnician = technicianRepository.findById(technician.getCin());
@@ -123,7 +114,6 @@ public class UserServiceImp implements UserService{
         theTechnician.get().setSpecialite(technician.getSpecialite());
         return technicianRepository.save(theTechnician.get());
     }
-
     @Override
     public User getUserByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
@@ -131,5 +121,23 @@ public class UserServiceImp implements UserService{
             throw new UserNotFoundException("User not found");
         }
         return user.get();
+    }
+
+    @Override
+    public User getUserInfoByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        throw new UserNotFoundException("user Not found");
+    }
+
+    @Override
+    public Admin getAdminInfoByEmail(String email) {
+        Optional<Admin> admin = adminRepository.findByEmail(email);
+        if(admin.isPresent()){
+            return admin.get();
+        }
+        throw new UserNotFoundException("User not found");
     }
 }

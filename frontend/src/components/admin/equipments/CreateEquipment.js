@@ -99,7 +99,7 @@ const CreateEquipment = () => {
     <div className="create-tecnician-container">
       <div className="equipment-details-header">
         <div className="go-back-container">
-          <Link to={'/equipments'}>
+          <Link to={'/admin/equipments'}>
             <button>
               <ArrowBackRoundedIcon />
               <p>Back</p>

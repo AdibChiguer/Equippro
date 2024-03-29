@@ -112,7 +112,7 @@ const Tickets = () => {
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
         />
-        <button className='comic-button'>
+        <button className='comic-button' onClick={() => navigate('/admin/create-ticket')}>
           Create
         </button>
       </div>
@@ -133,7 +133,7 @@ const Tickets = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} onClick={() => navigate(`/ticket-details/${row.original.ticketId}`)}>
+              <tr key={row.id} onClick={() => navigate(`/admin/ticket-details/${row.original.ticketId}`)}>
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                 ))}

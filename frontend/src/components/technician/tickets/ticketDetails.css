@@ -1,0 +1,59 @@
+.ticket-id-task-container ,
+.open-close-date-container ,
+.status-comment-container ,
+.equipment-container ,
+.technician-info-container {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  gap: 10rem;
+}
+
+.ticket-id ,
+.task ,
+.open-date ,
+.close-date ,
+.status ,
+.comment ,
+.equipment ,
+.owner ,
+.technician-content{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ticket-id label ,
+.task label ,
+.open-date label ,
+.close-date label ,
+.status label ,
+.comment label ,
+.equipment label ,
+.owner label ,
+.technician-content label{
+  color: #8D98AB;
+  font-size: 1rem;
+}
+
+.ticket-id input ,
+.task input , 
+.open-date input ,
+.close-date input,
+.status input ,
+.comment textarea ,
+.equipment input ,
+.owner input , 
+.technician-content input ,
+.technician-content select{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #8D98AB;
+  outline: none;
+  width: 300px;
+}
+
+.comment textarea {
+  max-width: 300px;
+  max-height: 100px;
+}

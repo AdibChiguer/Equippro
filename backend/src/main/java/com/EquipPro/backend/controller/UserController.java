@@ -63,7 +63,6 @@ public class UserController {
         technicians.forEach(user -> user.setPassword(null));
         return new ResponseEntity<>(technicians, HttpStatus.OK);
     }
-
     @GetMapping("/user/{email}")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email){
         try{
@@ -75,5 +74,23 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching user");
         }
     }
+    @GetMapping("/user/info/{email}")
+    public ResponseEntity<?> getUserProfileInfo(@PathVariable String email){
+        try{
+            User user = userService.getUserInfoByEmail(email);
+            user.setPassword(null);
+            return ResponseEntity.ok(user);
+        } catch (UserNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 
+    @GetMapping("/admin/info/{email}")
+    public ResponseEntity<?> getAdminProfileInfo(@PathVariable String email){
+        try{
+            return ResponseEntity.ok(userService.getAdminInfoByEmail(email));
+        } catch (UserNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 }

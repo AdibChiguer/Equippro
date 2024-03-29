@@ -70,7 +70,7 @@ const CreateTechnician = () => {
     <div className="create-tecnician-container">
       <div className="equipment-details-header">
         <div className="go-back-container">
-          <Link to={'/technicians'}>
+          <Link to={'/admin/technicians'}>
             <button>
               <ArrowBackRoundedIcon />
               <p>Back</p>
