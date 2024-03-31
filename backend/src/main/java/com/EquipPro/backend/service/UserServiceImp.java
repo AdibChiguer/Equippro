@@ -1,5 +1,6 @@
 package com.EquipPro.backend.service;
 
+import com.EquipPro.backend.exception.PasswordIncorrect;
 import com.EquipPro.backend.exception.UserAlreadyExistsException;
 import com.EquipPro.backend.exception.UserNotFoundException;
 import com.EquipPro.backend.model.*;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -139,5 +141,20 @@ public class UserServiceImp implements UserService{
             return admin.get();
         }
         throw new UserNotFoundException("User not found");
+    }
+
+    @Override
+    public void updateUserPassword(String email, String oldPassword, String newPassword) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            throw new UserNotFoundException("User not found");
+        }
+        User user = userOptional.get();
+        String storedPassword = user.getPassword();
+        if (!passwordEncoder.matches(oldPassword, storedPassword)) {
+            throw new PasswordIncorrect("Password is incorrect");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }

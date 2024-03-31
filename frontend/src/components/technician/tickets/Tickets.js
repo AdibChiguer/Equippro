@@ -48,7 +48,7 @@ const Tickets = () => {
   const [data, setData] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
   const { decodedToken, isExpired } = useJwt(token);
 
   useEffect(() => {

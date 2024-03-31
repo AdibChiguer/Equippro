@@ -91,14 +91,14 @@ public class TicketServiceImp implements TicketService{
         } else {
             ticket.get().setCloseDate(LocalDate.now());
             ticket.get().setStatus("closed");
-            EmailTemplate emailTemplate = new EmailTemplate();
-            // send email to client
-            emailTemplate.setClientEquipmentFixed(ticket.get().getEquipment().getRef(),
-                    ticket.get().getEquipment().getOwner().getNom());
-            String clientSubject = emailTemplate.getClientEquipmentFixed();
-            emailService.sendMail(ticket.get().getEquipment().getOwner().getEmail(),
-                    "notification" ,
-                    clientSubject );
+//            EmailTemplate emailTemplate = new EmailTemplate();
+//            // send email to client
+//            emailTemplate.setClientEquipmentFixed(ticket.get().getEquipment().getRef(),
+//                    ticket.get().getEquipment().getOwner().getNom());
+//            String clientSubject = emailTemplate.getClientEquipmentFixed();
+//            emailService.sendMail(ticket.get().getEquipment().getOwner().getEmail(),
+//                    "notification" ,
+//                    clientSubject );
             ticketRepository.save(ticket.get());
         }
     }
@@ -114,6 +114,7 @@ public class TicketServiceImp implements TicketService{
             Optional<Technician> technician = technicianRepository.findById(ticket.getTechnician().getCin());
             technician.ifPresent(value -> value.getTicket().remove(t.get()));
             t.get().setTechnician(ticket.getTechnician());
+            ticket.setStatus("underway");
             //++++
 //            EmailTemplate emailTemplate = new EmailTemplate();
 //            // send email to client

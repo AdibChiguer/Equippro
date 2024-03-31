@@ -21,4 +21,5 @@ public interface UserService {
     User getUserByEmail(String email);
     User getUserInfoByEmail(String email);
     Admin getAdminInfoByEmail(String email);
+    void updateUserPassword(String email, String oldPassword, String newPassword);
 }

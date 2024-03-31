@@ -89,7 +89,7 @@ const Tickets = () => {
           ticketId: ticket.id,
           equipmentReference: ticket.equipment.ref,
           owner: ticket.equipment.owner.cin,
-          technician: ticket.technician.cin,
+          technician: ticket.technician ? ticket.technician.cin : 'Not assigned',
           status: ticket.status,
         }));
         setData(formattedData);

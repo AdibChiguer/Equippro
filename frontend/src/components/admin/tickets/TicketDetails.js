@@ -87,8 +87,9 @@ const TicketDetails = () => {
       comment: ticketDetails.comment,
       task: ticketDetails.task,
       equipment: ticketDetails.equipment,
-      technician: { cin: ticketDetails.technician }
+      technician: ticketDetails.technician ? { cin:  ticketDetails.technician} : null
     };
+    console.log(updatedDetails);
     axios.put('http://localhost:8080/tickets/update', updatedDetails , {
       headers: {
           'Content-Type': 'application/json',
@@ -205,6 +206,7 @@ const TicketDetails = () => {
                 <input type="text" name="technician" value={ticketDetails.technician ? ticketDetails.technician.cin : ''} placeholder="Technician" readOnly/>
               ) : (
                 <select name="technician" id="technician-select" onChange={handleInputChange} value={ticketDetails.technician ? ticketDetails.technician.cin : ''}>
+                  <option value="">Select a technician</option>
                   {technicians.map((technician) => {
                     return <option key={technician.cin} value={technician.cin}>{technician.cin}</option>;
                   })}

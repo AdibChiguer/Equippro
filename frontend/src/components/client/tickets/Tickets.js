@@ -14,6 +14,7 @@ import { Button } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useJwt } from 'react-jwt';
 
 const columns = [
   {
@@ -47,10 +48,14 @@ const Tickets = () => {
   const [data, setData] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const { decodedToken, isExpired } = useJwt(token);
 
-  // useEffect(() => {
-  //   getAllTickets()
-  // }, []);
+  useEffect(() => {
+    if(decodedToken){
+      getAllTickets()
+    }
+  }, [decodedToken]);
 
   const table = useReactTable({
     data,
@@ -79,7 +84,7 @@ const Tickets = () => {
   });
 
   function getAllTickets() {
-    axios.get('http://localhost:8080/tickets/all' , {
+    axios.get(`http://localhost:8080/tickets/equipment-owner-tickets/${decodedToken.sub}` , {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -130,7 +135,7 @@ const Tickets = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} onClick={() => navigate(`/admin/ticket-details/${row.original.ticketId}`)}>
+              <tr key={row.id} onClick={() => navigate(`/client/ticket-details/${row.original.ticketId}`)}>
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                 ))}

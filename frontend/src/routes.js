@@ -24,12 +24,11 @@ import ClientEquipments from './components/client/equipments/Equipments';
 import ProtectedRoute from './components/ProtectedRoute';
 import ClientProfile from './components/client/profile/Profile';
 import ClientEquipmentDetails from './components/client/equipments/EquipmentDetails';
-import FixingEquipments from './components/technician/fixing-equipments/FixingEquipments';
-import FixedEquipments from './components/technician/fixed-equipments/FixedEquipments';
 import TechnicianTickets from './components/technician/tickets/Tickets';
 import TechnicianProfile from './components/technician/profile/Profile';
 import CreateTicket from './components/admin/tickets/CreateTicket';
 import ClientTickets from './components/client/tickets/Tickets';
+import TechnicianTicketDetails from './components/technician/tickets/TicketDetails';
 
 
 const Router = [
@@ -81,10 +80,8 @@ const Router = [
     element: <ProtectedRoute requiredRoles={['ROLE_technician']}><Technician/></ProtectedRoute>,
     children: [
       { path: '/technician', element: <Navigate to="/technician/fixing" /> },
-      { path: '/technician/fixing', element: <FixingEquipments /> },
-      { path: '/technician/fixed', element: <FixedEquipments /> },
       { path: '/technician/tickets', element: <TechnicianTickets /> },
-      { path: '/technician/ticket-details/id', element: <TechnicianTickets /> },
+      { path: '/technician/ticket-details/:id', element: <TechnicianTicketDetails /> },
       { path: '/technician/profile', element: <TechnicianProfile /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],

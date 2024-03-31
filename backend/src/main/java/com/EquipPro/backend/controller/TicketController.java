@@ -91,4 +91,13 @@ public class TicketController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @GetMapping("/equipment-owner-tickets/{email}")
+    public ResponseEntity<?> getOwnedTicketsClient(@PathVariable String email){
+        try{
+            return ResponseEntity.ok(ticketService.getOwnedTicketsClient(email));
+        } catch (UserNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 }

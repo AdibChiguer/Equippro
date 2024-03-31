@@ -1,5 +1,6 @@
 package com.EquipPro.backend.controller;
 
+import com.EquipPro.backend.exception.PasswordIncorrect;
 import com.EquipPro.backend.exception.UserAlreadyExistsException;
 import com.EquipPro.backend.exception.UserNotFoundException;
 import com.EquipPro.backend.model.Admin;
@@ -7,6 +8,7 @@ import com.EquipPro.backend.model.Client;
 import com.EquipPro.backend.model.Technician;
 import com.EquipPro.backend.model.User;
 import com.EquipPro.backend.request.LoginRequest;
+import com.EquipPro.backend.request.UpdatePasswordRequest;
 import com.EquipPro.backend.response.JwtResponse;
 import com.EquipPro.backend.security.jwt.JwtUtils;
 import com.EquipPro.backend.security.user.AppUserDetails;
@@ -113,6 +115,20 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Unauthorized");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/update-password")
+    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequest request) {
+        try {
+            userServiceImp.updateUserPassword(request.getEmail(), request.getOldPassword(), request.getNewPassword());
+            return ResponseEntity.ok("Password updated successfully");
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (PasswordIncorrect e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating password: " + e.getMessage());
         }
     }
 }

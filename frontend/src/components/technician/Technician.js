@@ -1,5 +1,4 @@
 import React, {useState , useEffect} from 'react';
-import SideBar from './sidebar/SideBar';
 import Header from './header/Header';
 import { Outlet } from 'react-router-dom';
 import axios from 'axios';
@@ -25,10 +24,9 @@ const Technician = ({ username }) => {
 
   return (
     <div>
-      <SideBar />
-      <div className='main-container'>
+      <div className='main-container-client'>
         <Header username={user} />
-        <div className='main-div'>
+        <div className='main-div-client'>
           <Outlet />
         </div>
       </div>
