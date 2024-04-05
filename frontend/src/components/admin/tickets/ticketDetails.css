@@ -87,3 +87,8 @@
   justify-content: center;
   gap: 10px;
 }
+
+.delete-btn-container {
+  display: flex;
+  gap: 20px;
+}

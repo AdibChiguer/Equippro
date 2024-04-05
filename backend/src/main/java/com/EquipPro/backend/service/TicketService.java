@@ -16,4 +16,5 @@ public interface TicketService {
     List<Ticket> getWaitTickets();
     List<Ticket> getOwnedTickets(String TechnicianEmail);
     List<Ticket> getOwnedTicketsClient(String clientEmail);
+    void deleteTicket(Long ticketId);
 }

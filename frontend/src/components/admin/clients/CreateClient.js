@@ -37,7 +37,15 @@ const CreateClient = () => {
   }
 
   function submit() {
-    console.log(client);
+    if (client.cin === '' || client.nom === '' || client.prenom === '' || client.email === '' || client.password === '') {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Please fill all the fields',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+      return;
+    }
     axios.post('http://localhost:8080/auth/register/client', client , {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,

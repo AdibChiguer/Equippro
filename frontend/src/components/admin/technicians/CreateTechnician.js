@@ -40,6 +40,15 @@ const CreateTechnician = () => {
   }
 
   function submit() {
+    if (technician.cin === '' || technician.nom === '' || technician.prenom === '' || technician.email === '' || technician.specialite === '' || technician.password === '') {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Please fill all the fields',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+      return;
+    }
     console.log(technician);
     axios.post('http://localhost:8080/auth/register/technician', technician , {
       headers: {

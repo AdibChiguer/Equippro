@@ -35,13 +35,22 @@
   padding-left: 30px;
   text-align: left;
 }
-.table tbody tr{
+/* .table tbody tr{
   transition: 0.5s;
 }
 .table tbody tr:hover {
   background-color: #e1fafbc3;
   cursor: pointer;
+} */
+
+.table tbody tr td a   {
+  color: red;
+  text-decoration: underline;
+  color: black;
+  font-size: 16px;
+  
 }
+
 .table thead tr {
   background-color: #b4c3d34d;
 }

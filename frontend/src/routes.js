@@ -29,7 +29,7 @@ import TechnicianProfile from './components/technician/profile/Profile';
 import CreateTicket from './components/admin/tickets/CreateTicket';
 import ClientTickets from './components/client/tickets/Tickets';
 import TechnicianTicketDetails from './components/technician/tickets/TicketDetails';
-
+import LoadingHomePage from './components/loading-page/LoadingHomePage';
 
 const Router = [
   {
@@ -85,6 +85,9 @@ const Router = [
       { path: '/technician/profile', element: <TechnicianProfile /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
+  },
+  { path: '/', 
+    element: <LoadingHomePage /> 
   }
 ]
 

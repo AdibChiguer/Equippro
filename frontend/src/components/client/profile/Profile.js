@@ -25,7 +25,6 @@ const Profile = () => {
       axios.get(`http://localhost:8080/users/user/info/${decodedToken.sub}`)
       .then((response) => {
         setUser(response.data);
-        console.log("3a", response.data);
       })
       .catch((error) => {
         console.log(error)

@@ -112,9 +112,8 @@ public class TicketServiceImp implements TicketService{
         t.get().setTask(ticket.getTask());
         if (ticket.getTechnician() != null){
             Optional<Technician> technician = technicianRepository.findById(ticket.getTechnician().getCin());
-            technician.ifPresent(value -> value.getTicket().remove(t.get()));
-            t.get().setTechnician(ticket.getTechnician());
-            ticket.setStatus("underway");
+            t.get().setTechnician(technician.get());
+            t.get().setStatus("underway");
             //++++
 //            EmailTemplate emailTemplate = new EmailTemplate();
 //            // send email to client
@@ -167,5 +166,14 @@ public class TicketServiceImp implements TicketService{
             throw new UserNotFoundException("User not found");
         }
         return ticketRepository.getByEquipmentOwnerEmail(clientEmail);
+    }
+
+    @Override
+    public void deleteTicket(Long ticketId) {
+        Optional<Ticket> ticket = ticketRepository.findById(ticketId);
+        if (ticket.isEmpty()){
+            throw new TicketNotFoundException("Ticket not found");
+        }
+        ticketRepository.deleteById(ticketId);
     }
 }

@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
+import CloseIcon from '@mui/icons-material/Close';
 import Swal from 'sweetalert2';
 import './ticketDetails.css';
 
@@ -101,7 +102,9 @@ const TicketDetails = () => {
           icon: 'success',
           title: 'Changes saved successfully',
           showConfirmButton: true,
-          timer: 1500,
+          timer: 2500,
+        }).then(() => {
+          window.location.reload();
         });
       })
       .catch((err) => {
@@ -139,6 +142,70 @@ const TicketDetails = () => {
     setChangesMade(true);
   };
 
+  const deleteTicket = (id) => {
+    axios.delete(`http://localhost:8080/tickets/delete/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+      .then((res) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Ticket deleted successfully',
+          showConfirmButton: true,
+          timer: 1500,
+        }).then(() => {
+          window.location.href = '/admin/tickets';
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong. Try again',
+        });
+      });
+  }
+
+  function ConfirmDelete() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteTicket(id);
+      }
+    });
+  }
+
+  const closeTicket = () => {
+    axios.put(`http://localhost:8080/tickets/close/${ticketDetails.id}`)
+    .then((res) => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Ticket closed successfully',
+      });
+      getTicketDetails(ticketDetails.id);
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'something went wrong. try again',
+      });
+    });
+  }
+  
+
   return (
     <div className="equipment-details-container">
       <div className="equipment-details-header">
@@ -152,7 +219,13 @@ const TicketDetails = () => {
         </div>
         <h1>Ticket Details</h1>
         <div className="delete-btn-container">
-          <button className="delete-btn" onClick={() => { console.log('deleted' + ticketDetails) }}>
+          { ticketDetails.status != 'closed' ? 
+            <button className='delete-btn' onClick={() => { closeTicket()}}>
+              <p>Close</p>
+              <CloseIcon />
+            </button> : ""
+          }
+          <button className="delete-btn" onClick={() => { ConfirmDelete() }}>
             <p>Delete</p>
             <DeleteIcon />
           </button>

@@ -40,7 +40,6 @@
 }
 .table tbody tr:hover {
   background-color: #e1fafbc3;
-  cursor: pointer;
 }
 .table thead tr {
   background-color: #b4c3d34d;

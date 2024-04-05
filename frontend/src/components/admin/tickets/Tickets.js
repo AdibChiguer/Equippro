@@ -14,6 +14,7 @@ import { Button } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 const columns = [
   {
@@ -24,17 +25,37 @@ const columns = [
   {
     accessorKey: "equipmentReference",
     header: "Equipment Reference",
-    cell: (props) => <p>{props.getValue()}</p>
+    cell: (props) => (
+      <Link to={`/admin/equipment-details/${props.getValue()}`}>
+        {props.getValue()}
+      </Link>
+    )
   },
   {
     accessorKey: "owner",
     header: "Owner",
-    cell: (props) => <p>{props.getValue()}</p>
+    cell: (props) => {
+      if (props.getValue() === 'Not assigned') {
+        return <p>{props.getValue()}</p>
+      } else {
+        return <Link to={`/admin/client-details/${props.getValue()}`}>
+          {props.getValue()}
+        </Link>
+      }
+    }
   },
   {
     accessorKey: "technician",
     header: "Technician",
-    cell: (props) => <p>{props.getValue()}</p>
+    cell: (props) => {
+      if (props.getValue() === 'Not assigned') {
+        return <p>{props.getValue()}</p>
+      } else {
+        return <Link to={`/admin/technician-details/${props.getValue()}`}>
+          {props.getValue()}
+        </Link>
+      }
+    }
   },
   {
     accessorKey: "status",
@@ -88,7 +109,7 @@ const Tickets = () => {
         const formattedData = res.data.map(ticket => ({
           ticketId: ticket.id,
           equipmentReference: ticket.equipment.ref,
-          owner: ticket.equipment.owner.cin,
+          owner: ticket.equipment.owner ? ticket.equipment.owner.cin : 'Not assigned',
           technician: ticket.technician ? ticket.technician.cin : 'Not assigned',
           status: ticket.status,
         }));
@@ -129,14 +150,18 @@ const Tickets = () => {
                   );
                 });
               })}
+              <th>Information</th>
             </tr>
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} onClick={() => navigate(`/admin/ticket-details/${row.original.ticketId}`)}>
+              <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                 ))}
+                <td>
+                  <button className='comic-button' onClick={() => navigate(`/admin/ticket-details/${row.original.ticketId}`)}>Details</button>
+                </td>
               </tr>
             ))}
           </tbody>

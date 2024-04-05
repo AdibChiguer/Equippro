@@ -100,4 +100,16 @@ public class TicketController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> deleteTicket(@PathVariable Long id){
+        try {
+            ticketService.deleteTicket(id);
+            return ResponseEntity.ok("ticket deleted successfully");
+        } catch (TicketNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error when try to delete ticket");
+        }
+    }
 }
