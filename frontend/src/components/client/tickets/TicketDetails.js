@@ -36,7 +36,6 @@ const TicketDetails = () => {
           technician: res.data.technician
         };
         setTicketDetails(details);
-        setOriginalDetails(details);
       })
       .catch((err) => {
         console.log(err);

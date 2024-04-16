@@ -94,7 +94,7 @@ const Tickets = () => {
         const formattedData = res.data.map(ticket => ({
           ticketId: ticket.id,
           equipmentReference: ticket.equipment.ref,
-          owner: ticket.equipment.owner.cin,
+          owner: ticket.equipment.owner ? ticket.equipment.owner.cin : 'No owner',
           technician: ticket.technician.cin,
           status: ticket.status,
         }));

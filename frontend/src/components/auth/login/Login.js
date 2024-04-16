@@ -32,17 +32,13 @@ const Login = () => {
       password: user.password
     })
     .then(res => {
-      console.log(res.data);
       localStorage.setItem('token', res.data.token);
       if(res.data.roles[0] === 'ROLE_admin') {
         navigate('/admin/home');
-        console.log("navigate('/admin/home');")
       } else if (res.data.roles[0] === 'ROLE_client') {
         navigate('/client/home');
-        console.log("navigate('/client/home');")
       } else if (res.data.roles[0] === 'ROLE_technician') {
         navigate('/technician/tickets');
-        console.log("navigate('/technician/tickets');")
       } else {
         setErr('Invalid');
         setIsSubmited(false);
@@ -75,7 +71,7 @@ const Login = () => {
             </div>
             <div className="input-form-container">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password"autoComplete='false' onChange={getpassword}/>
+              <input type="password" id="password" placeholder='Password' autoComplete='false' onChange={getpassword}/>
             </div>
             <button type="button" className="login-btn" onClick={(e) => {e.preventDefault(); login();}} disabled={isSubmited}>{isSubmited ? 'Loading...' : 'Log in'}</button>
           </form>

@@ -87,10 +87,16 @@ const TicketDetails = () => {
         </div>
         <h1>Ticket Details</h1>
         <div className="delete-btn-container">
-          <button className="delete-btn" onClick={() => { closeTicket() }}>
-            <p>Close</p>
-            <CloseIcon />
-          </button>
+          {
+            ticketDetails.status === 'closed' ?
+             null : 
+             <>
+              <button className="delete-btn" onClick={() => { closeTicket() }}>
+                <p>Close</p>
+                <CloseIcon />
+              </button>
+             </>
+          }
         </div>
       </div>
       <div className="equipment-details-body">

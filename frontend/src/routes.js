@@ -30,6 +30,7 @@ import CreateTicket from './components/admin/tickets/CreateTicket';
 import ClientTickets from './components/client/tickets/Tickets';
 import TechnicianTicketDetails from './components/technician/tickets/TicketDetails';
 import LoadingHomePage from './components/loading-page/LoadingHomePage';
+import ClientTicketDetails from './components/client/tickets/TicketDetails';
 
 const Router = [
   {
@@ -55,15 +56,6 @@ const Router = [
     ],
   },
   {
-    path: '/auth',
-    element: <Auth />,
-    children: [
-      { path: '404', element: <Error /> },
-      { path: '/auth/login', element: <Login /> },
-      { path: '*', element: <Navigate to="/auth/404" /> },
-    ],
-  },
-  {
     path: '/client',
     element: <ProtectedRoute requiredRoles={['ROLE_client']}><Client/></ProtectedRoute>,
     children: [
@@ -72,6 +64,7 @@ const Router = [
       { path: '/client/equipment-details/:ref', element: <ClientEquipmentDetails /> },
       { path: '/client/profile', element: <ClientProfile /> },
       { path: '/client/tickets', element: <ClientTickets />},
+      { path: '/client/ticket-details/:id', element: <ClientTicketDetails />},
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
@@ -79,7 +72,7 @@ const Router = [
     path: '/technician',
     element: <ProtectedRoute requiredRoles={['ROLE_technician']}><Technician/></ProtectedRoute>,
     children: [
-      { path: '/technician', element: <Navigate to="/technician/fixing" /> },
+      { path: '/technician', element: <Navigate to="/technician/tickets" /> },
       { path: '/technician/tickets', element: <TechnicianTickets /> },
       { path: '/technician/ticket-details/:id', element: <TechnicianTicketDetails /> },
       { path: '/technician/profile', element: <TechnicianProfile /> },
@@ -88,6 +81,15 @@ const Router = [
   },
   { path: '/', 
     element: <LoadingHomePage /> 
+  },
+  {
+    path: '/auth',
+    element: <Auth />,
+    children: [
+      { path: '404', element: <Error /> },
+      { path: '/auth/login', element: <Login /> },
+      { path: '*', element: <Navigate to="/auth/404" /> },
+    ],
   }
 ]
 

@@ -1,9 +1,9 @@
-import {
-  Input,
-} from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 
 const Filters = ({ columnFilters, setColumnFilters }) => {
-  const ticketId = columnFilters.find((f) => f.id === "ticketId")?.value || "";
+  // Change from `ticketId` to `equipmentReference`
+  const equipmentReference = columnFilters.find((f) => f.id === "equipmentReference")?.value || "";
+  console.log(columnFilters);
 
   const onFilterChange = (id, value) =>
     setColumnFilters((prev) =>
@@ -22,12 +22,13 @@ const Filters = ({ columnFilters, setColumnFilters }) => {
               className="input"
               type="text"
               variant="filled"
-              placeholder="Search"
+              placeholder="Search by Equipment Reference" // Changed placeholder text
               borderRadius={5}
-              value={ticketId}
-              onChange={(e) => onFilterChange("ticketId", e.target.value)}
+              value={equipmentReference} // Changed value
+              onChange={(e) => onFilterChange("equipmentReference", e.target.value)} // Changed filter ID
             />
     </div>
   );
 };
+
 export default Filters;
